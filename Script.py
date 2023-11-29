@@ -6,7 +6,7 @@ class script(object):
 ★ Language: <a href=https://www.python.org>Python</a>
 ★ Library: <a href=https://pyrogram.org>Pyrogram</a>"""
 
-    MY_OWNER_TXT = """★ Name: Hansaka Anuhas
+    MY_OWNER_TXT = """★ Name: Rolex
 ★ Username: @Itz_me_444
 ★ ID: <code>123456789</code>"""
 
