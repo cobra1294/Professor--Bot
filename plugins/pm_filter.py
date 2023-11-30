@@ -51,7 +51,7 @@ async def give_filter(client, message):
             files, offset, total = await get_search_results(message.text, offset=0, filter=True)
             if files:
                 btn = [[
-                    InlineKeyboardButton("Here", url='https://t.me/SL_Films_World')
+                    InlineKeyboardButton("Here", url='https://t.me/+4vHWoC6enU1hNzA1')
                 ]]
                 await message.reply_text(f'Total {total} results found in this group', reply_markup=InlineKeyboardMarkup(btn))
             return
@@ -577,7 +577,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "my_owner":
         buttons = [[
             InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start'),
-            InlineKeyboardButton('☎️ ᴄᴏɴᴛᴀᴄᴛ', url='https://t.me/Hansaka_Anuhas')
+            InlineKeyboardButton('☎️ ᴄᴏɴᴛᴀᴄᴛ', url='https://t.me/Itz_me_444')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
