@@ -1,4 +1,4 @@
-import re, sys, logging
+import re, logging
 from os import environ
 from Script import script
 
@@ -59,8 +59,7 @@ else:
     
 OPENAI_API = environ.get('OPENAI_API', '0')
 if len(OPENAI_API) == 0:
-    logging.error('OPENAI_API is missing, exiting now')
-    exit()
+    logging.warning('OPENAI_API is empty')
 
 # MongoDB information
 DATABASE_URL = environ.get('DATABASE_URL', "")
@@ -86,6 +85,7 @@ PROTECT_CONTENT = is_enabled((environ.get('PROTECT_CONTENT', "False")), False)
 LONG_IMDB_DESCRIPTION = is_enabled(environ.get("LONG_IMDB_DESCRIPTION", "False"), False)
 LINK_MODE = is_enabled(environ.get("LINK_MODE", "True"), True)
 CACHE_TIME = int(environ.get('CACHE_TIME', 300))
+MAX_BTN = int(environ.get('MAX_BTN', 10))
 
 # Other
 IMDB_TEMPLATE = environ.get("IMDB_TEMPLATE", script.IMDB_TEMPLATE)
@@ -96,6 +96,7 @@ VERIFY_EXPIRE = int(environ.get('VERIFY_EXPIRE', "21600")) # Add time in seconds
 IS_VERIFY = is_enabled(environ.get("IS_VERIFY", "False"), False)
 WELCOME_TEXT = environ.get("WELCOME_TEXT", script.WELCOME_TEXT)
 TUTORIAL = environ.get("TUTORIAL", "https://t.me/how_to_openlinkz/5")
+VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/how_to_openlinkz/5")
 INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTENSIONS', 'mp4 mkv').split()]
 
 # stream features vars
