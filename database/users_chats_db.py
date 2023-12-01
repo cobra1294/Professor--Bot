@@ -42,12 +42,8 @@ class Database:
                 is_banned=False,
                 ban_reason="",
             ),
-            verify_status=dict(
-                is_verified=False,
-                verified_time="",
-                verify_token="",
-                link=""
-        ))
+            verify_status=self.default_verify
+        )
 
 
     def new_group(self, id, title):
@@ -116,7 +112,6 @@ class Database:
         return b_users, b_chats
     
 
-
     async def add_chat(self, chat, title):
         chat = self.new_group(chat, title)
         await self.grp.insert_one(chat)
@@ -178,3 +173,4 @@ class Database:
         
 
 db = Database()
+                 
