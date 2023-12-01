@@ -155,7 +155,7 @@ async def pm_search(client, message):
     files, n_offset, total = await get_search_results(message.text, filter=True)
     if int(total) != 0:
         btn = [[
-            InlineKeyboardButton("Here", url='https://t.me/SL_Films_World')
+            InlineKeyboardButton("Here", url='https://t.me/+4vHWoC6enU1hNzA1')
         ]]
         await message.reply_text(f'Total {total} results found in this group', reply_markup=InlineKeyboardMarkup(btn))
 
@@ -489,7 +489,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.answer("⚠️")
 
     elif query.data == "instructions":
-        await query.answer("Movie request format.\nExample:\nBlack Adam or Black Adam 2022\n\nTV Reries request format.\nExample:\nLoki S01E01 or Loki S01 E01\n\nDon't use symbols.", show_alert=True)
+        await query.answer("Movie request format.\nExample:\nBlack Adam or Black Adam 2022\n\nTV Reries request format.\nExample:\nLoki S01E01 or Loki S01EP01\n\nDon't use symbols.", show_alert=True)
 
     elif query.data == "start":
         await query.answer('Welcome!')
@@ -547,7 +547,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "my_owner":
         buttons = [[
             InlineKeyboardButton('« ʙᴀᴄᴋ', callback_data='start'),
-            InlineKeyboardButton('☎️ ᴄᴏɴᴛᴀᴄᴛ', url='https://t.me/Hansaka_Anuhas')
+            InlineKeyboardButton('☎️ ᴄᴏɴᴛᴀᴄᴛ', url='https://t.me/Itz_me_444')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
