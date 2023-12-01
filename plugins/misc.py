@@ -1,10 +1,8 @@
 import os
 from pyrogram import Client, filters, enums
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant, MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
-import time
-from datetime import datetime
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 import logging
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.ERROR)
 
@@ -19,5 +17,3 @@ async def showid(client, message):
 
     elif chat_type == enums.ChatType.CHANNEL:
         await message.reply_text(f'★ Channel ID: <code>{message.chat.id}</code>')
-
-
