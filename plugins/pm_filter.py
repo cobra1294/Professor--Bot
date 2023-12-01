@@ -48,7 +48,7 @@ async def give_filter(client, message):
             files, offset, total = await get_search_results(message.text, offset=0, filter=True)
             if files:
                 btn = [[
-                    InlineKeyboardButton("Here", url='https://t.me/SL_Films_World')
+                    InlineKeyboardButton("Here", url='https://t.me/+4vHWoC6enU1hNzA1')
                 ]]
                 await message.reply_text(f'Total {total} results found in this group', reply_markup=InlineKeyboardMarkup(btn))
             return
@@ -253,7 +253,7 @@ async def languages_cb_handler(client: Client, query: CallbackQuery):
     if int(req) != query.from_user.id:
         return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
 
-    langs = ['english', 'tamil', 'hindi', 'malayalam', 'telugu']
+    langs = ['english', 'tamil', 'hindi', 'kannada', 'malayalam', 'telugu']
     btn = [
         [
             InlineKeyboardButton(
