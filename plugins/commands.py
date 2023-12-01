@@ -329,7 +329,7 @@ async def save_shortlink(client, message):
     try:
         _, url, api = message.text.split(" ", 2)
     except:
-        return await message.reply_text("<b>Command Incomplete:-\n\ngive me a shortlink & api along with the command...\n\nEx:- <code>/shortlink mdisklink.link 5843c3cc645f5077b2200a2c77e0344879880b3e</code>")
+        return await message.reply_text("@meera12_bot")
     
     try:
         await get_shortlink(url, api, f'https://t.me/{temp.U_NAME}')
