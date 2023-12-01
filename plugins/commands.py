@@ -9,9 +9,8 @@ from pyrogram.errors import ChatAdminRequired, FloodWait, ButtonDataInvalid
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, delete_files
 from database.users_chats_db import db
-from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_EXPIRE, TUTORIAL, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT
+from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_TUTORIAL, VERIFY_EXPIRE, TUTORIAL, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT
 from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, get_verify_status, update_verify_status, save_group_settings, temp, get_readable_time, get_wish
-from database.connections_mdb import all_connections, delete_connections, add_connection
 import re
 import json
 import base64
@@ -112,7 +111,7 @@ async def start(client, message):
         btn = [[
             InlineKeyboardButton("🧿 Verify 🧿", url=link)
         ],[
-            InlineKeyboardButton('🗳 Tutorial 🗳', url=TUTORIAL)
+            InlineKeyboardButton('🗳 Tutorial 🗳', url=VERIFY_TUTORIAL)
         ]]
         await message.reply("You not verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
         return
@@ -146,13 +145,22 @@ async def start(client, message):
                 reply_markup=InlineKeyboardMarkup(btn)
             )
         return
-        
-    _, grp_id, file_id = mc.split("_", 2)
+
+    type_, grp_id, file_id = mc.split("_", 2)
     files_ = await get_file_details(file_id)
     if not files_:
         return await message.reply('No Such File Exist!')
-    settings = await get_settings(int(grp_id))
     files = files_[0]
+    settings = await get_settings(int(grp_id))
+    if type_ != 'shortlink' and settings['shortlink']:
+        link = await get_shortlink(settings['url'], settings['api'], f"https://t.me/{temp.U_NAME}?start=shortlink_{grp_id}_{file_id}")
+        btn = [[
+            InlineKeyboardButton("♻️ Get File ♻️", url=link)
+        ],[
+            InlineKeyboardButton("📍 ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ 📍", url=settings['tutorial'])
+        ]]
+        await message.reply(f"[{get_size(files.file_size)}] {files.file_name}\n\nYour file is ready, Please get using this link. 👍", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
+        return
     CAPTION = settings['caption']
     f_caption = CAPTION.format(
         file_name = files.file_name,
@@ -178,7 +186,8 @@ async def start(client, message):
 @Client.on_message(filters.command('index_channels') & filters.user(ADMINS))
 async def channels_info(bot, message):
     """Send basic information of index channels"""
-    if not (ids:=INDEX_CHANNELS):
+    ids = INDEX_CHANNELS
+    if not ids:
         return await message.reply("Not set INDEX_CHANNELS")
 
     text = '**Indexed Channels:**\n'
@@ -187,13 +196,6 @@ async def channels_info(bot, message):
         text += f'{chat.title}\n'
     text += f'\n**Total:** {len(ids)}'
     await message.reply(text)
-
-@Client.on_message(filters.command('logs') & filters.user(ADMINS))
-async def log_file(bot, message):
-    try:
-        await message.reply_document('Logs.txt')
-    except:
-        await message.reply('Not found logs!')
 
 
 @Client.on_message(filters.command('stats') & filters.user(ADMINS))
@@ -214,20 +216,7 @@ async def stats(bot, message):
 async def settings(client, message):
     chat_type = message.chat.type
     if chat_type == enums.ChatType.PRIVATE:
-        btn = []
-        ids = await all_connections(message.from_user.id)
-        for id in ids:
-            try:
-                chat = await client.get_chat(id)
-                btn.append(
-                    [InlineKeyboardButton(text=chat.title, callback_data=f'pm_settings#{chat.id}')]
-                )
-            except:
-                await delete_connections(id)
-        if btn:
-            await message.reply_text('Select the group whose settings you want to change.\n\n<i>If your group not showing here? Use this command in your group.</i>', reply_markup=InlineKeyboardMarkup(btn))
-        else:
-            await message.reply_text("No groups found! Use this command group.")
+        return await message.reply_text("Use this command in group.")
             
     elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         grp_id = message.chat.id
@@ -235,11 +224,6 @@ async def settings(client, message):
         if not await is_check_admin(client, grp_id, message.from_user.id):
             return await message.reply_text('You not admin in this group.')
 
-        await delete_connections(grp_id)
-        async for member in client.get_chat_members(grp_id, filter=enums.ChatMembersFilter.ADMINISTRATORS):
-            if not member.user.is_bot:
-                await add_connection(grp_id, member.user.id)
-                
         settings = await get_settings(grp_id)
         if settings is not None:
             buttons = [
@@ -345,12 +329,10 @@ async def save_shortlink(client, message):
     try:
         _, url, api = message.text.split(" ", 2)
     except:
-        return await message.reply_text("<b>Command Incomplete:-\n\ngive me a shortlink & api along with the command...\n\nEx:- <code>😁</code>")
+        return await message.reply_text("<b>Command Incomplete:-\n\ngive me a shortlink & api along with the command...\n\nEx:- <code>/shortlink mdisklink.link 5843c3cc645f5077b2200a2c77e0344879880b3e</code>")
     
     try:
-        shortzy = Shortzy(api_key=api, base_site=url)
-        link = f'https://t.me/{temp.U_NAME}'
-        await shortzy.convert(link)
+        await get_shortlink(url, api, f'https://t.me/{temp.U_NAME}')
     except:
         return await message.reply_text("Your shortlink API or URL invalid, Please Check again!")
     
@@ -383,7 +365,7 @@ Welcome Text: {settings['welcome_text']}
 
 Tutorial Link: {settings['tutorial']}
 
-Force Channels: {str(ids)[1:-1] if (ids:=settings['fsub']) else 'Not Set'}"""
+Force Channels: {str(settings['fsub'])[1:-1] if settings['fsub'] else 'Not Set'}"""
 
     btn = [[
         InlineKeyboardButton(text="Close", callback_data="close_data")
@@ -500,7 +482,8 @@ async def set_fsub(client, message):
 
 @Client.on_message(filters.command('telegraph'))
 async def telegraph_upload(bot, message):
-    if not (reply_to_message := message.reply_to_message):
+    reply_to_message = message.reply_to_message
+    if not reply_to_message:
         return await message.reply('Reply to any photo or video.')
     file = reply_to_message.photo or reply_to_message.video or None
     if file is None:
@@ -528,3 +511,4 @@ async def ping(client, message):
     msg = await message.reply("👀")
     end_time = time.monotonic()
     await msg.edit(f'{round((end_time - start_time) * 1000)} ms')
+                    
