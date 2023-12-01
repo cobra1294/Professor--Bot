@@ -15,10 +15,6 @@ from typing import List, Any, Union, Optional, AsyncGenerator
 from database.users_chats_db import db
 from shortzy import Shortzy
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-
 imdb = Cinemagoer() 
 
 # temp db for banned 
@@ -271,4 +267,4 @@ def get_wish():
         status = "ɢᴏᴏᴅ ᴀꜰᴛᴇʀɴᴏᴏɴ 🌗"
     else:
         status = "ɢᴏᴏᴅ ᴇᴠᴇɴɪɴɢ 🌘"
-    return status
+    return status            
