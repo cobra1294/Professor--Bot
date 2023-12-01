@@ -160,6 +160,8 @@ async def start(client, message):
             InlineKeyboardButton("📍 ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ 📍", url=settings['tutorial'])
         ]]
         await message.reply(f"[{get_size(files.file_size)}] {files.file_name}\n\nYour file is ready, Please get using this link. 👍", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
+        await asyncio.sleep(600)
+        await k.edit("<b>Your message is successfully deleted!!!</b>")
         return
     CAPTION = settings['caption']
     f_caption = CAPTION.format(
