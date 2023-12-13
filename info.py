@@ -95,8 +95,8 @@ SHORTLINK_API = environ.get("SHORTLINK_API", "60194c2494812fa1ac565d03aa1e6975b7
 VERIFY_EXPIRE = int(environ.get('VERIFY_EXPIRE', "21600")) # Add time in seconds
 IS_VERIFY = is_enabled(environ.get("IS_VERIFY", "False"), False)
 WELCOME_TEXT = environ.get("WELCOME_TEXT", script.WELCOME_TEXT)
-TUTORIAL = environ.get("TUTORIAL", "https://t.me/how_to_openlinkz/5")
-VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/how_to_openlinkz/5")
+TUTORIAL = environ.get("TUTORIAL", "https://t.me/how_to_openlinkz/19")
+VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/how_to_openlinkz/19")
 INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTENSIONS', 'mp4 mkv').split()]
 
 # stream features vars
