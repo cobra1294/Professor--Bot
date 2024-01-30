@@ -48,7 +48,7 @@ async def give_filter(client, message):
             files, offset, total = await get_search_results(message.text, offset=0, filter=True)
             if files:
                 btn = [[
-                    InlineKeyboardButton("Here", url='https://t.me/+4vHWoC6enU1hNzA1')
+                    InlineKeyboardButton("Here", url='https://t.me/+cikLkbDz4T01N2Q1')
                 ]]
                 await message.reply_text(f'Total {total} results found in this group', reply_markup=InlineKeyboardMarkup(btn))
             return
@@ -155,7 +155,7 @@ async def pm_search(client, message):
     files, n_offset, total = await get_search_results(message.text, filter=True)
     if int(total) != 0:
         btn = [[
-            InlineKeyboardButton("Here", url='https://t.me/+4vHWoC6enU1hNzA1')
+            InlineKeyboardButton("Here", url='https://t.me/+cikLkbDz4T01N2Q1')
         ]]
         await message.reply_text(f'Total {total} results found in this group', reply_markup=InlineKeyboardMarkup(btn))
 
