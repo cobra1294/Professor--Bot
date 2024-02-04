@@ -7,11 +7,7 @@ from pymongo.errors import DuplicateKeyError
 from umongo import Instance, Document, fields
 from motor.motor_asyncio import AsyncIOMotorClient
 from marshmallow.exceptions import ValidationError
-from info import DATABASE_URL, DATABASE_NAME, COLLECTION_NAME
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
+from info import DATABASE_URL, DATABASE_NAME, COLLECTION_NAME, MAX_BTN
 
 client = AsyncIOMotorClient(DATABASE_URL)
 db = client[DATABASE_NAME]
@@ -43,19 +39,19 @@ async def save_file(media):
             caption=file_caption
         )
     except ValidationError:
-        logger.exception('Error occurred while saving file in database')
+        print(f'Saving Error - {file_name}')
         return 'err'
     else:
         try:
             await file.commit()
         except DuplicateKeyError:      
-            logger.warning(f'{file_name} is already saved in database')
+            print(f'Already Saved - {file_name}')
             return 'dup'
         else:
-            logger.info(f'{file_name} is saved to database')
+            print(f'Saved - {file_name}')
             return 'suc'
 
-async def get_search_results(query, max_results=10, offset=0, filter=False, lang=None):
+async def get_search_results(query, max_results=MAX_BTN, offset=0, lang=None):
     query = query.strip()
     if not query:
         raw_pattern = '.'
@@ -66,7 +62,8 @@ async def get_search_results(query, max_results=10, offset=0, filter=False, lang
     try:
         regex = re.compile(raw_pattern, flags=re.IGNORECASE)
     except:
-        return None, None, None
+        regex = query
+
     filter = {'file_name': regex}
     cursor = Media.find(filter)
 
@@ -78,7 +75,7 @@ async def get_search_results(query, max_results=10, offset=0, filter=False, lang
         files = lang_files[offset:][:max_results]
         total_results = len(lang_files)
         next_offset = offset + max_results
-        if next_offset > total_results:
+        if next_offset >= total_results:
             next_offset = ''
         return files, next_offset, total_results
         
@@ -88,16 +85,12 @@ async def get_search_results(query, max_results=10, offset=0, filter=False, lang
     files = await cursor.to_list(length=max_results)
     total_results = await Media.count_documents(filter)
     next_offset = offset + max_results
-    if next_offset > total_results:
+    if next_offset >= total_results:
         next_offset = ''       
     return files, next_offset, total_results
     
-async def delete_files(query, filter=True):
+async def delete_files(query):
     query = query.strip()
-    # for better results
-    if filter:
-        query = query.replace(' ', r'(\s|\.|\+|\-|_)')
-        raw_pattern = r'(\s|_|\-|\.|\+)' + query + r'(\s|_|\-|\.|\+)'
     if not query:
         raw_pattern = '.'
     elif ' ' not in query:
@@ -108,7 +101,7 @@ async def delete_files(query, filter=True):
     try:
         regex = re.compile(raw_pattern, flags=re.IGNORECASE)
     except:
-        return None, None
+        regex = query
     filter = {'file_name': regex}
     total = await Media.count_documents(filter)
     files = Media.find(filter)
@@ -146,3 +139,4 @@ def unpack_new_file_id(new_file_id):
         )
     )
     return file_id
+    
