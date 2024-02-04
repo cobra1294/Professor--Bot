@@ -86,6 +86,7 @@ LONG_IMDB_DESCRIPTION = is_enabled(environ.get("LONG_IMDB_DESCRIPTION", "False")
 LINK_MODE = is_enabled(environ.get("LINK_MODE", "True"), True)
 CACHE_TIME = int(environ.get('CACHE_TIME', 300))
 MAX_BTN = int(environ.get('MAX_BTN', 10))
+PAYMENT_QR = environ.get('PAYMENT_QR', 'https://graph.org/file/46fd33d87206259d3071b.jpg')
 
 # Other
 IMDB_TEMPLATE = environ.get("IMDB_TEMPLATE", script.IMDB_TEMPLATE)
@@ -100,6 +101,7 @@ VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/how_to_openlinkz/
 INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTENSIONS', 'mp4 mkv').split()]
 
 # stream features vars
+IS_STREAM = is_enabled('IS_STREAM', True)
 BIN_CHANNEL = environ.get("BIN_CHANNEL", "-1001930197257")
 if len(BIN_CHANNEL) == 0:
     logging.error('BIN_CHANNEL is missing, exiting now')
