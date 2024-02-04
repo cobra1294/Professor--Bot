@@ -7,72 +7,34 @@ from info import BIN_CHANNEL
 from utils import temp
 from aiohttp import web
 from web.utils.custom_dl import TGCustomYield, chunk_size, offset_fix
-from web.utils.render_template import render_page
+from web.utils.render_template import media_watch
 from urllib.parse import quote_plus
 
 routes = web.RouteTableDef()
 
-# From chatGPT
-home_template = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SL Bot</title>
-    <style>
-        /* Add your CSS styles for the chatbot title and image here */
-        /* Example styles for the title */
-        .chatbot-title {
-            text-align: center;
-            font-size: 24px;
-            margin-top: 20px;
-        }
-
-        /* Example styles for the image */
-        .chatbot-image {
-            display: block;
-            margin: 0 auto;
-            max-width: 300px;
-        }
-    </style>
-</head>
-<body>
-    <!-- Image above the chatbot title -->
-    <img src="https://telegra.ph/file/582962dbc60ae9ce722b0.jpg" alt="Chatbot Image" class="chatbot-image">
-
-    <!-- Chatbot title -->
-    <h1 class="chatbot-title">SL Bots</h1>
-</body>
-</html>
-"""
-
 @routes.get("/", allow_head=True)
 async def root_route_handler(request):
-    return web.Response(text=home_template, content_type='text/html')
+    return web.Response(text='<h1 align="center"><a href="https://t.me/mybotsupport"><b>ROLEX Bots</b></a></h1>', content_type='text/html')
 
 
 @routes.get("/watch/{message_id}")
-async def stream_handler(request):
+async def watch_handler(request):
     try:
         message_id = int(request.match_info['message_id'])
-        return web.Response(text=await render_page(message_id), content_type='text/html')
-    except ValueError as e:
-        logging.error(e)
-        raise web.HTTPNotFound
-        
+        return web.Response(text=await media_watch(message_id), content_type='text/html')
+    except:
+        return web.Response(text="<h1>Something went wrong</h1>", content_type='text/html')
+
 @routes.get("/download/{message_id}")
-@routes.get("/{message_id}")
-async def old_stream_handler(request):
+async def download_handler(request):
     try:
         message_id = int(request.match_info['message_id'])
-        return await media_streamer(request, message_id)
-    except ValueError as e:
-        logging.error(e)
-        raise web.HTTPNotFound
+        return await media_download(request, message_id)
+    except:
+        return web.Response(text="<h1>Something went wrong</h1>", content_type='text/html')
         
 
-async def media_streamer(request, message_id: int):
+async def media_download(request, message_id: int):
     range_header = request.headers.get('Range', 0)
     media_msg = await temp.BOT.get_messages(BIN_CHANNEL, message_id)
     file_properties = await TGCustomYield().generate_file_properties(media_msg)
@@ -116,3 +78,4 @@ async def media_streamer(request, message_id: int):
         return_resp.headers.add("Content-Length", str(file_size))
 
     return return_resp
+    
