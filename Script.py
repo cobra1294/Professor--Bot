@@ -15,6 +15,7 @@ class script(object):
     STATUS_TXT = """🗂 Total Files: <code>{}</code>
 👤 Total Users: <code>{}</code>
 👥 Total Chats: <code>{}</code>
+🤑 Premium Users: <code>{}</code>
 ✨ Storage: <code>{}</code> / <code>{}</code>
 🚀 Uptime: <code>{}</code>"""
 
@@ -26,7 +27,8 @@ class script(object):
 
     NEW_USER_TXT = """#NewUser
 ★ Name: {}
-★ ID: <code>{}</code>"""
+★ ID: <code>{}</code>
+➠ Professor"""
 
     NO_RESULT_TXT = """#NoResult
 ★ Group Name: {}
