@@ -1,5 +1,10 @@
-import motor.motor_asyncio
-from info import DATABASE_NAME, DATABASE_URL, IMDB_TEMPLATE, WELCOME_TEXT, AUTH_CHANNEL, LINK_MODE, TUTORIAL, SHORTLINK_URL, SHORTLINK_API, SHORTLINK, FILE_CAPTION, IMDB, WELCOME, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE
+from motor.motor_asyncio import AsyncIOMotorClient
+from info import DATABASE_NAME, DATABASE_URL, IMDB_TEMPLATE, WELCOME_TEXT, AUTH_CHANNEL, LINK_MODE, TUTORIAL, SHORTLINK_URL, SHORTLINK_API, SHORTLINK, FILE_CAPTION, IMDB, WELCOME, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE, IS_STREAM
+import time
+import datetime
+
+client = AsyncIOMotorClient(DATABASE_URL)
+mydb = client[DATABASE_NAME]
 
 class Database:
     default_setgs = {
@@ -17,7 +22,8 @@ class Database:
         'shortlink': SHORTLINK,
         'tutorial': TUTORIAL,
         'links': LINK_MODE,
-        'fsub': AUTH_CHANNEL
+        'fsub': AUTH_CHANNEL,
+        'is_stream': IS_STREAM
     }
 
     default_verify = {
@@ -28,11 +34,9 @@ class Database:
     }
     
     def __init__(self):
-        self._client = motor.motor_asyncio.AsyncIOMotorClient(DATABASE_URL)
-        self.db = self._client[DATABASE_NAME]
-        self.col = self.db.Users
-        self.grp = self.db.Groups
-
+        self.col = mydb.Users
+        self.grp = mydb.Groups
+        self.users = mydb.uersz
 
     def new_user(self, id, name):
         return dict(
@@ -44,7 +48,6 @@ class Database:
             ),
             verify_status=self.default_verify
         )
-
 
     def new_group(self, id, title):
         return dict(
@@ -96,13 +99,11 @@ class Database:
     async def get_all_users(self):
         return self.col.find({})
     
-
     async def delete_user(self, user_id):
         await self.col.delete_many({'id': int(user_id)})
 
     async def delete_chat(self, grp_id):
         await self.grp.delete_many({'id': int(grp_id)})
-
 
     async def get_banned(self):
         users = self.col.find({'ban_status.is_banned': True})
@@ -111,17 +112,14 @@ class Database:
         b_users = [user['id'] async for user in users]
         return b_users, b_chats
     
-
     async def add_chat(self, chat, title):
         chat = self.new_group(chat, title)
         await self.grp.insert_one(chat)
-    
 
     async def get_chat(self, chat):
         chat = await self.grp.find_one({'id':int(chat)})
         return False if not chat else chat.get('chat_status')
     
-
     async def re_enable_chat(self, id):
         chat_status=dict(
             is_disabled=False,
@@ -130,8 +128,7 @@ class Database:
         await self.grp.update_one({'id': int(id)}, {'$set': {'chat_status': chat_status}})
         
     async def update_settings(self, id, settings):
-        await self.grp.update_one({'id': int(id)}, {'$set': {'settings': settings}})
-        
+        await self.grp.update_one({'id': int(id)}, {'$set': {'settings': settings}})      
     
     async def get_settings(self, id):
         chat = await self.grp.find_one({'id':int(id)})
@@ -139,7 +136,6 @@ class Database:
             return chat.get('settings', self.default_setgs)
         return self.default_setgs
     
-
     async def disable_chat(self, chat, reason="No Reason"):
         chat_status=dict(
             is_disabled=True,
@@ -147,30 +143,72 @@ class Database:
             )
         await self.grp.update_one({'id': int(chat)}, {'$set': {'chat_status': chat_status}})
     
-
     async def get_verify_status(self, user_id):
         user = await self.col.find_one({'id':int(user_id)})
         if user:
             return user.get('verify_status', self.default_verify)
         return self.default_verify
         
-
     async def update_verify_status(self, user_id, verify):
         await self.col.update_one({'id': int(user_id)}, {'$set': {'verify_status': verify}})
-
     
     async def total_chat_count(self):
         count = await self.grp.count_documents({})
         return count
     
-
     async def get_all_chats(self):
         return self.grp.find({})
-
-
+    
     async def get_db_size(self):
-        return (await self.db.command("dbstats"))['dataSize']
-        
+        return (await mydb.command("dbstats"))['dataSize']
+   
+    
+    async def get_user(self, user_id):
+        user_data = await self.users.find_one({"id": user_id})
+        return user_data
+            
+    async def update_user(self, user_data):
+        await self.users.update_one({"id": user_data["id"]}, {"$set": user_data}, upsert=True)
+
+    async def has_premium_access(self, user_id):
+        user_data = await self.get_user(user_id)
+        if user_data:
+            expiry_time = user_data.get("expiry_time")
+            if expiry_time is None:
+                # User previously used the free trial, but it has ended.
+                return False
+            elif isinstance(expiry_time, datetime.datetime) and datetime.datetime.now() <= expiry_time:
+                return True
+            else:
+                await self.users.update_one({"id": user_id}, {"$set": {"expiry_time": None}})
+        return False
+    
+    async def check_remaining_uasge(self, userid):
+        user_id = userid
+        user_data = await self.get_user(user_id)        
+        expiry_time = user_data.get("expiry_time")
+        # Calculate remaining time
+        remaining_time = expiry_time - datetime.datetime.now()
+        return remaining_time
+    
+    async def get_free_trial_status(self, user_id):
+        user_data = await self.get_user(user_id)
+        if user_data:
+            return user_data.get("has_free_trial", False)
+        return False
+
+    async def give_free_trail(self, userid):        
+        user_id = userid
+        seconds = 5*60         
+        expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=seconds)
+        user_data = {"id": user_id, "expiry_time": expiry_time, "has_free_trial": True}
+        await self.users.update_one({"id": user_id}, {"$set": user_data}, upsert=True)
+
+    async def all_premium_users(self):
+        count = await self.users.count_documents({
+        "expiry_time": {"$gt": datetime.datetime.now()}
+        })
+        return count
 
 db = Database()
-                 
+        
