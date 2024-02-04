@@ -6,9 +6,8 @@ from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, ChatAdmin
 from info import ADMINS, LOG_CHANNEL, INDEX_EXTENSIONS
 from database.ia_filterdb import save_file
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from utils import temp, get_readable_time, iter_messages
+from utils import temp, get_readable_time
 import re, time
-logger = logging.getLogger(__name__)
 
 lock = asyncio.Lock()
 
@@ -33,7 +32,7 @@ async def send_for_index(bot, message):
     if lock.locked():
         return await message.reply('Wait until previous process complete.')
     i = await message.reply("Forward last message or send last message link.")
-    msg = await bot.listen(message.from_user.id)
+    msg = await bot.listen(chat_id=message.chat.id, user_id=message.from_user.id)
     await i.delete()
     if msg.text and msg.text.startswith("https://t.me"):
         try:
@@ -54,14 +53,13 @@ async def send_for_index(bot, message):
     try:
         chat = await bot.get_chat(chat_id)
     except Exception as e:
-        logger.exception(e)
         return await message.reply(f'Errors - {e}')
 
     if chat.type != enums.ChatType.CHANNEL:
         return await message.reply("I can index only channels.")
 
     s = await message.reply("Send skip message number.")
-    msg = await bot.listen(message.from_user.id)
+    msg = await bot.listen(chat_id=message.chat.id, user_id=message.from_user.id)
     await s.delete()
     try:
         skip = int(msg.text)
@@ -89,7 +87,7 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
     
     async with lock:
         try:
-            async for message in iter_messages(bot, chat, lst_msg_id, skip):
+            async for message in bot.iter_messages(chat, lst_msg_id, skip):
                 time_taken = get_readable_time(time.time()-start_time)
                 if temp.CANCEL:
                     temp.CANCEL = False
@@ -126,8 +124,7 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
                 elif sts == 'err':
                     errors += 1
         except Exception as e:
-            logger.exception(e)
-            await msg.reply(f'Index canceled due to Error: {e}')
+            await msg.reply(f'Index canceled due to Error - {e}')
         else:
             await msg.edit(f'Succesfully saved <code>{total_files}</code> to Database!\nCompleted in {time_taken}\n\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>')
-    
+                                        
