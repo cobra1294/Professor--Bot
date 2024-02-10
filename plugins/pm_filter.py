@@ -414,15 +414,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file_id}")
 
- elif query.data.startswith("stream"):
-        file_id = query.data.split('#', 1)[1]
-    try:
-        user_id = query.from_user.id
-        msg = await client.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
-        watch = f"{URL}watch/{msg.id}"
-        download = f"{URL}download/{msg.id}"
-        hp_link = await get_shortlink(download)
-        ph_link = await get_shortlink(watch)
+    elif query.data.startswith("stream"):
+         file_id = query.data.split('#', 1)[1]
+        try:
+         user_id = query.from_user.id
+         msg = await client.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
+         watch = f"{URL}watch/{msg.id}"
+         download = f"{URL}download/{msg.id}"
+         hp_link = await get_shortlink(download)
+         ph_link = await get_shortlink(watch)
         if await db.has_premium_access(user_id):
          btn=[[
             InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
@@ -454,7 +454,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=hp_link),
                                                         InlineKeyboardButton('ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️', url=ph_link)]]))  
-    except Exception as e:
+        except Exception as e:
         print(e)  # print the error message
         await query.answer(f"⚠️ SOMETHING WENT WRONG \n\n{e}", show_alert=True)
         return
