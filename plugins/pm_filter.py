@@ -416,7 +416,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     elif query.data.startswith("stream"):
          file_id = query.data.split('#', 1)[1]
-        try:
+       try:
          user_id = query.from_user.id
          msg = await client.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
          watch = f"{URL}watch/{msg.id}"
@@ -454,7 +454,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=hp_link),
                                                         InlineKeyboardButton('ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️', url=ph_link)]]))  
-        except Exception as e:
+       except Exception as e:
         print(e)  # print the error message
         await query.answer(f"⚠️ SOMETHING WENT WRONG \n\n{e}", show_alert=True)
         return
