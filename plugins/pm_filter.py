@@ -16,6 +16,30 @@ from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results,delete_files
 import logging
 
+# ENABLE_SHORTLINK = ""
+
+def generate_random_alphanumeric():
+    """Generate a random 8-letter alphanumeric string."""
+    characters = string.ascii_letters + string.digits
+    random_chars = ''.join(random.choice(characters) for _ in range(8))
+    return random_chars
+  
+def get_shortlink_sync(url):
+    try:
+        rget = requests.get(f"https://{STREAM_SITE}/api?api={STREAM_API}&url={url}&alias={generate_random_alphanumeric()}")
+        rjson = rget.json()
+        if rjson["status"] == "success" or rget.status_code == 200:
+            return rjson["shortenedUrl"]
+        else:
+            return url
+    except Exception as e:
+        print(f"Error in get_shortlink_sync: {e}")
+        return url
+
+async def get_shortlink(url):
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, get_shortlink_sync, url)
+
 BUTTONS = {}
 CAP = {}
 
