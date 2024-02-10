@@ -444,11 +444,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     InlineKeyboardButton('❗ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ❗', url=STREAMHTO)
                 ]]
             
-           query.message.reply_markup = query.message.reply_markup or []
-           query.message.reply_markup.inline_keyboard.pop(0)
-           query.message.reply_markup.inline_keyboard.insert(0, buttons)
-           await query.message.edit_reply_markup(InlineKeyboardMarkup(buttons))
-           await msg.reply_text(
+            query.message.reply_markup = query.message.reply_markup or []
+            query.message.reply_markup.inline_keyboard.pop(0)
+            query.message.reply_markup.inline_keyboard.insert(0, buttons)
+            await query.message.edit_reply_markup(InlineKeyboardMarkup(buttons))
+            await msg.reply_text(
                 text=f"#LinkGenrated\n\nIᴅ : <code>{user_id}</code>\nUꜱᴇʀɴᴀᴍᴇ : {username}\n\nNᴀᴍᴇ : {fileName}",
                 quote=True,
                 disable_web_page_preview=True,
