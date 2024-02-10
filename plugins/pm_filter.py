@@ -416,48 +416,48 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     elif query.data.startswith("stream"):
          file_id = query.data.split('#', 1)[1]
-       try:
-         user_id = query.from_user.id
-         msg = await client.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
-         watch = f"{URL}watch/{msg.id}"
-         download = f"{URL}download/{msg.id}"
-         hp_link = await get_shortlink(download)
-         ph_link = await get_shortlink(watch)
-        if await db.has_premium_access(user_id):
-         btn=[[
-            InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
-            InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
-         ],[
-            InlineKeyboardButton('✅𝖬𝖮𝖵𝖨𝖤 𝖦𝖱𝖮𝖴𝖯 2', url='https://t.me/+cikLkbDz4T01N2Q1')
-         ]]
-        else:
-            await query.answer("🚸 ɴᴏᴛᴇ :\nᴀᴅ-ꜰʀᴇᴇ ꜱᴇʀᴠɪᴄᴇ ɪꜱ ᴏɴʟʏ ꜰᴏʀ ᴘʀᴇᴍɪᴜᴍ ᴜꜱᴇʀꜱ.\n\nᴛᴏ ᴋɴᴏᴡ ᴍᴏʀᴇ ᴄʜᴇᴄᴋ ᴘʟᴀɴꜱ.", show_alert=True)
-            await query.message.reply_text(
-            text="<b>‼️ ᴡᴀɴᴛ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴀᴅꜱ ?\n\n✅ ᴘᴜʀᴄʜᴀꜱᴇ ᴘʀᴇᴍɪᴜᴍ ᴀɴᴅ ᴇɴᴊᴏʏ ᴀᴅ-ꜰʀᴇᴇ ᴇxᴘᴇʀɪᴇɴᴄᴇ.</b>",
-            quote=True,
-            disable_web_page_preview=True,                  
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("💸 ᴄʜᴇᴄᴋᴏᴜᴛ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴꜱ 💸", callback_data='seeplans')]]))
-            buttons = [[
-                InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=hp_link),
-                InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️", url=ph_link)
-            ],[
-                InlineKeyboardButton('❗ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ❗', url=STREAMHTO)
-            ]]
+        try:
+            user_id = query.from_user.id
+            msg = await client.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
+            watch = f"{URL}watch/{msg.id}"
+            download = f"{URL}download/{msg.id}"
+            hp_link = await get_shortlink(download)
+            ph_link = await get_shortlink(watch)
+            if await db.has_premium_access(user_id):
+                btn=[[
+                  InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
+                  InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
+                ],[
+                  InlineKeyboardButton('✅𝖬𝖮𝖵𝖨𝖤 𝖦𝖱𝖮𝖴𝖯 2', url='https://t.me/+cikLkbDz4T01N2Q1')
+                ]]
+            else:
+                await query.answer("🚸 ɴᴏᴛᴇ :\nᴀᴅ-ꜰʀᴇᴇ ꜱᴇʀᴠɪᴄᴇ ɪꜱ ᴏɴʟʏ ꜰᴏʀ ᴘʀᴇᴍɪᴜᴍ ᴜꜱᴇʀꜱ.\n\nᴛᴏ ᴋɴᴏᴡ ᴍᴏʀᴇ ᴄʜᴇᴄᴋ ᴘʟᴀɴꜱ.", show_alert=True)
+                await query.message.reply_text(
+                text="<b>‼️ ᴡᴀɴᴛ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴀᴅꜱ ?\n\n✅ ᴘᴜʀᴄʜᴀꜱᴇ ᴘʀᴇᴍɪᴜᴍ ᴀɴᴅ ᴇɴᴊᴏʏ ᴀᴅ-ꜰʀᴇᴇ ᴇxᴘᴇʀɪᴇɴᴄᴇ.</b>",
+                quote=True,
+                disable_web_page_preview=True,                  
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("💸 ᴄʜᴇᴄᴋᴏᴜᴛ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴꜱ 💸", callback_data='seeplans')]]))
+                buttons = [[
+                    InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=hp_link),
+                    InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️", url=ph_link)
+                ],[
+                    InlineKeyboardButton('❗ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ❗', url=STREAMHTO)
+                ]]
             
-        query.message.reply_markup = query.message.reply_markup or []
-        query.message.reply_markup.inline_keyboard.pop(0)
-        query.message.reply_markup.inline_keyboard.insert(0, buttons)
-        await query.message.edit_reply_markup(InlineKeyboardMarkup(buttons))
-        await msg.reply_text(
+           query.message.reply_markup = query.message.reply_markup or []
+           query.message.reply_markup.inline_keyboard.pop(0)
+           query.message.reply_markup.inline_keyboard.insert(0, buttons)
+           await query.message.edit_reply_markup(InlineKeyboardMarkup(buttons))
+           await msg.reply_text(
                 text=f"#LinkGenrated\n\nIᴅ : <code>{user_id}</code>\nUꜱᴇʀɴᴀᴍᴇ : {username}\n\nNᴀᴍᴇ : {fileName}",
                 quote=True,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=hp_link),
                                                         InlineKeyboardButton('ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️', url=ph_link)]]))  
-       except Exception as e:
-        print(e)  # print the error message
-        await query.answer(f"⚠️ SOMETHING WENT WRONG \n\n{e}", show_alert=True)
-        return
+        except Exception as e:
+           print(e)  # print the error message
+           await query.answer(f"⚠️ SOMETHING WENT WRONG \n\n{e}", show_alert=True)
+           return
     
     elif query.data == "get_trail":
         user_id = query.from_user.id
