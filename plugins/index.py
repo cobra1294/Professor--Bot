@@ -118,9 +118,6 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
                     continue
                 media.caption = message.caption
                 file_name = re.sub(r"@\w+|(_|\-|\.|\+)", " ", str(media.file_name))
-                if ['predvd', 'camrip', 'Predvdrip', 'HDCam', 'HD-Cam', 'S-print', 'HDTS', 'HD-TS'] in file_name:
-                    badfiles += 1
-                    continue
                 sts = await save_file(media)
                 if sts == 'suc':
                     total_files += 1
@@ -132,4 +129,4 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
             await msg.reply(f'Index canceled due to Error - {e}')
         else:
             await msg.edit(f'Succesfully saved <code>{total_files}</code> to Database!\nCompleted in {time_taken}\n\nDuplicate Files Skipped: <code>{duplicate}</code>\nDeleted Messages Skipped: <code>{deleted}</code>\nNon-Media messages skipped: <code>{no_media + unsupported}</code>\nUnsupported Media: <code>{unsupported}</code>\nErrors Occurred: <code>{errors}</code>\nBad Files Ignoref: <code>{badfiles}</code>')
-    
+        
