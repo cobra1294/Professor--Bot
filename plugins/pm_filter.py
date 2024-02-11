@@ -415,21 +415,21 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file_id}")
 
     elif query.data.startswith("stream"):
-         file_id = query.data.split('#', 1)[1]
-         user_id = query.from_user.id
-         msg = await client.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
-         watch = f"{URL}watch/{msg.id}"
-         download = f"{URL}download/{msg.id}"
-         hp_link = await get_shortlink(download)
-         ph_link = await get_shortlink(watch)
-         if await db.has_premium_access(user_id):
-         btn=[[
-             InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
-             InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
-             ],[
-             InlineKeyboardButton('✅𝖬𝖮𝖵𝖨𝖤 𝖦𝖱𝖮𝖴𝖯 2', url='https://t.me/+cikLkbDz4T01N2Q1')
-             ]]
-         else:
+        file_id = query.data.split('#', 1)[1]
+        user_id = query.from_user.id
+        msg = await client.send_cached_media(chat_id=BIN_CHANNEL, file_id=file_id)
+        watch = f"{URL}watch/{msg.id}"
+        download = f"{URL}download/{msg.id}"
+        hp_link = await get_shortlink(download)
+        ph_link = await get_shortlink(watch)
+        if await db.has_premium_access(user_id):
+            btn=[[
+              InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
+              InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
+            ],[
+              InlineKeyboardButton('✅𝖬𝖮𝖵𝖨𝖤 𝖦𝖱𝖮𝖴𝖯 2', url='https://t.me/+cikLkbDz4T01N2Q1')
+            ]]
+        else:
              await query.answer("🚸 ɴᴏᴛᴇ :\nᴀᴅ-ꜰʀᴇᴇ ꜱᴇʀᴠɪᴄᴇ ɪꜱ ᴏɴʟʏ ꜰᴏʀ ᴘʀᴇᴍɪᴜᴍ ᴜꜱᴇʀꜱ.\n\nᴛᴏ ᴋɴᴏᴡ ᴍᴏʀᴇ ᴄʜᴇᴄᴋ ᴘʟᴀɴꜱ.", show_alert=True)
              await query.message.reply_text(
              text="<b>‼️ ᴡᴀɴᴛ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴀᴅꜱ ?\n\n✅ ᴘᴜʀᴄʜᴀꜱᴇ ᴘʀᴇᴍɪᴜᴍ ᴀɴᴅ ᴇɴᴊᴏʏ ᴀᴅ-ꜰʀᴇᴇ ᴇxᴘᴇʀɪᴇɴᴄᴇ.</b>",
