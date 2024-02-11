@@ -66,7 +66,7 @@ async def start(client, message):
 
     if len(message.command) == 2 and message.command[1] == "plans":
         btn = [            
-            [InlineKeyboardButton("ꜱᴇɴᴅ ᴘᴀʏᴍᴇɴᴛ ʀᴇᴄᴇɪᴘᴛ 🧾", url=OWNER_USERNAME)],
+            [InlineKeyboardButton("ꜱᴇɴᴅ ᴘᴀʏᴍᴇɴᴛ ʀᴇᴄᴇɪᴘᴛ 🧾", url='https://t.me/meera12_bot')],
             [InlineKeyboardButton("⚠️ ᴄʟᴏsᴇ / ᴅᴇʟᴇᴛᴇ ⚠️", callback_data="close_data")]
         ]
         reply_markup = InlineKeyboardMarkup(btn)
