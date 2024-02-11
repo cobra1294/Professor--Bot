@@ -424,8 +424,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ph_link = await get_shortlink(watch)
         if await db.has_premium_access(user_id):
             btn=[[
-              InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
-              InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
+              InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️", url=watch),
+              InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
             ],[
               InlineKeyboardButton('✅𝖬𝖮𝖵𝖨𝖤 𝖦𝖱𝖮𝖴𝖯 2', url='https://t.me/+cikLkbDz4T01N2Q1')
             ]]
