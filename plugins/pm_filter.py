@@ -455,7 +455,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=hp_link),
                                                         InlineKeyboardButton('ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️', url=ph_link)]]))  
        
-    elif query.data == "get_trail":
+ elif query.data == "get_trail":
         user_id = query.from_user.id
         free_trial_status = await db.get_free_trial_status(user_id)
         if not free_trial_status:            
@@ -468,7 +468,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.message.edit_text(text=new_text)
             return
             
-    elif query.data == "buy_premium":
+ elif query.data == "buy_premium":
         btn = [[            
             InlineKeyboardButton("✅sᴇɴᴅ ʏᴏᴜʀ ᴘᴀʏᴍᴇɴᴛ ʀᴇᴄᴇɪᴘᴛ ʜᴇʀᴇ✅", user_id=admin)
         ]
@@ -485,7 +485,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         )
         return 
                 
-    elif query.data.startswith("checksub"):
+ elif query.data.startswith("checksub"):
         ident, mc = query.data.split("#")
         settings = await get_settings(int(mc.split("_", 2)[1]))
         btn = await is_subscribed(client, query, settings['fsub'])
@@ -499,7 +499,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start={mc}")
         await query.message.delete()
 
-    elif query.data.startswith("unmuteme"):
+ elif query.data.startswith("unmuteme"):
         ident, chatid = query.data.split("#")
         settings = await get_settings(int(chatid))
         btn = await is_subscribed(client, query, settings['fsub'])
@@ -509,13 +509,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await client.unban_chat_member(query.message.chat.id, user_id)
             await query.answer("Unmuted Successfully !", show_alert=True)
    
-    elif query.data == "buttons":
+ elif query.data == "buttons":
         await query.answer("⚠️")
 
-    elif query.data == "instructions":
+ elif query.data == "instructions":
         await query.answer("Movie request format.\nExample:\nBlack Adam or Black Adam 2022\n\nTV Reries request format.\nExample:\nLoki S01E01 or Loki S01 EP01\n\nDon't use symbols.", show_alert=True)
 
-    elif query.data == "start":
+ elif query.data == "start":
         await query.answer('Welcome!')
         buttons = [[
             InlineKeyboardButton("+ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ +", url=f'http://t.me/{temp.U_NAME}?startgroup=start')
