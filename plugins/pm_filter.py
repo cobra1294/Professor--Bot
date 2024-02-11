@@ -414,7 +414,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return await query.answer(f"Hello {query.from_user.first_name},\nDon't Click Other Results!", show_alert=True)
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file_id}")
 
-     elif query.data.startswith("stream"):
+    elif query.data.startswith("stream"):
          file_id = query.data.split('#', 1)[1]
          try:
             user_id = query.from_user.id
@@ -455,7 +455,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 ꜰᴀꜱᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=hp_link),
                                                         InlineKeyboardButton('ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ 🖥️', url=ph_link)]]))  
        
-      elif query.data == "get_trail":
+    elif query.data == "get_trail":
         user_id = query.from_user.id
         free_trial_status = await db.get_free_trial_status(user_id)
         if not free_trial_status:            
