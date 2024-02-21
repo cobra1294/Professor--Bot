@@ -107,17 +107,17 @@ LANGUAGES = [language.lower() for language in environ.get('LANGUAGES', 'english 
 # Other
 IMDB_TEMPLATE = environ.get("IMDB_TEMPLATE", script.IMDB_TEMPLATE)
 FILE_CAPTION = environ.get("FILE_CAPTION", script.FILE_CAPTION)
-SHORTLINK_URL = environ.get("SHORTLINK_URL", "moneykamalo.com")
-SHORTLINK_API = environ.get("SHORTLINK_API", "60194c2494812fa1ac565d03aa1e6975b790aa1f")
-VERIFY_EXPIRE = int(environ.get('VERIFY_EXPIRE', "21600")) # Add time in seconds
-IS_VERIFY = is_enabled(environ.get("IS_VERIFY", "False"), False)
+SHORTLINK_URL = environ.get("SHORTLINK_URL", "krownlinks.com")
+SHORTLINK_API = environ.get("SHORTLINK_API", "8536db2963229d622d99d92d62b04cac053646f9")
+VERIFY_EXPIRE = int(environ.get('VERIFY_EXPIRE', "1800")) # Add time in seconds
+IS_VERIFY = is_enabled(environ.get("IS_VERIFY", "True"), True)
 WELCOME_TEXT = environ.get("WELCOME_TEXT", script.WELCOME_TEXT)
-TUTORIAL = environ.get("TUTORIAL", "https://t.me/how_to_openlinkz/19")
+TUTORIAL = environ.get("TUTORIAL", "https://t.me/how_to_openlinkz/5")
 VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/how_to_openlinkz/5")
 INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTENSIONS', 'mp4 mkv').split()]
 
 # stream features vars
-IS_STREAM = is_enabled('IS_STREAM', True)
+IS_STREAM = is_enabled('IS_STREAM', False)
 BIN_CHANNEL = environ.get("BIN_CHANNEL", "-1001930197257")
 if len(BIN_CHANNEL) == 0:
     print('Error - BIN_CHANNEL is missing, exiting now')
