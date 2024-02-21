@@ -83,7 +83,7 @@ async def start(client, message):
         _, token = mc.split("_", 1)
         verify_status = await get_verify_status(message.from_user.id)
         if verify_status['verify_token'] != token:
-            return await message.reply("Your verify token is invalid.")
+            return await message.reply("𝙿𝙻𝙴𝙰𝚂𝙴 𝚂𝙴𝙰𝚁𝙲𝙷 𝙰𝙶𝙰𝙸𝙽 𝙸𝙽 𝙶𝚁𝙾𝚄𝙿")
         await update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time())
         if verify_status["link"] == "":
             reply_markup = None
