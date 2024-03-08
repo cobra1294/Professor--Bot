@@ -58,7 +58,7 @@ async def get_search_results(query, max_results=MAX_BTN, offset=0, lang=None):
     elif ' ' not in query:
         raw_pattern = r'(\b|[\.\+\-_])' + query + r'(\b|[\.\+\-_])'
     else:
-        raw_pattern = query.replace(' ', r'.*[\s\.\+\-_]') 
+        raw_pattern = query.replace(' ', r'.*[\s\.(|)\+\-_]') 
     try:
         regex = re.compile(raw_pattern, flags=re.IGNORECASE)
     except:
@@ -96,7 +96,7 @@ async def delete_files(query):
     elif ' ' not in query:
         raw_pattern = r'(\b|[\.\+\-_])' + query + r'(\b|[\.\+\-_])'
     else:
-        raw_pattern = query.replace(' ', r'.*[\s\.\+\-_]')
+        raw_pattern = query.replace(' ', r'.*[\s\.(|)\+\-_]')
     
     try:
         regex = re.compile(raw_pattern, flags=re.IGNORECASE)
