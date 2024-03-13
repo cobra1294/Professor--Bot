@@ -84,9 +84,9 @@ UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/moviez_areas')
 FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/rqsturmovie1')
 
 #stream link shortner
-STREAM_SITE = (environ.get('STREAM_SITE', 'paisakamalo.in'))
-STREAM_API = (environ.get('STREAM_API', '0854a694ab2529a8353d6a0aa31b1b4d10c12a31'))
-STREAMHTO = (environ.get('STREAMHTO', 'https://t.me/how_to_openlinkz/17'))
+STREAM_SITE = (environ.get('STREAM_SITE', 'onepagelink.in'))
+STREAM_API = (environ.get('STREAM_API', '9da5a04d91f1d1c6f3570503c56fb4a101fe2f89'))
+STREAMHTO = (environ.get('STREAMHTO', 'https://t.me/how_to_openlinkz/18'))
 
 # Bot settings
 AUTO_FILTER = is_enabled((environ.get('AUTO_FILTER', "True")), True)
