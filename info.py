@@ -81,7 +81,7 @@ COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Files')
 # Links
 SUPPORT_LINK = environ.get('SUPPORT_LINK', 'https://t.me/mybotsupport')
 UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/moviez_areas')
-FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/rqsturmovie1')
+FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/+cikLkbDz4T01N2Q1')
 
 #stream link shortner
 STREAM_SITE = (environ.get('STREAM_SITE', 'onepagelink.in'))
