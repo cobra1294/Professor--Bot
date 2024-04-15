@@ -81,9 +81,10 @@ I can't find the <b>{}</b> in my database! 🥲
 🗣 Requested by: {message.from_user.mention}
 ©️ Powered by: <b>{message.chat.title}</b>"""
 
-    FILE_CAPTION = """<b>📂Fɪʟᴇɴᴀᴍᴇ: </b> @moviez_areas <code>{file_caption}</code>\n
+    FILE_CAPTION = """<b>📂Fɪʟᴇɴᴀᴍᴇ: </b> @moviez_areas <code>{file_caption}</code>
 
-<b>ᴊᴏɪɴ👇🏻\n➠ ➠ <a href='https://t.me/request_your_moviesz'>𝙼𝙾𝚅𝙸𝙴 𝙶𝚁𝙾𝚄𝙿𝟏</a>\n
+<b>ᴊᴏɪɴ👇🏻
+➠ ➠ <a href='https://t.me/request_your_moviesz'>𝙼𝙾𝚅𝙸𝙴 𝙶𝚁𝙾𝚄𝙿𝟏</a>
 
 ➠ ➠ <a href='https://t.me/+cikLkbDz4T01N2Q1'>𝙼𝙾𝚅𝙸𝙴 𝙶𝚁𝙾𝚄𝙿𝟐</a></b>
 
