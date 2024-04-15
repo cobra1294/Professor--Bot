@@ -92,7 +92,7 @@ async def start(client, message):
                 InlineKeyboardButton("📌 Get File 📌", url=f'https://t.me/{temp.U_NAME}?start={verify_status["link"]}')
             ]]
             reply_markup = InlineKeyboardMarkup(btn)
-        await message.reply(f"✅ You successfully verified until: {get_readable_time(VERIFY_EXPIRE)}", reply_markup=reply_markup, protect_content=True)
+        await message.reply(f"✅ You Are Successfully Verified For: {get_readable_time(VERIFY_EXPIRE)} Get Unlimited Files Till Verified Time🥳🤝", reply_markup=reply_markup, protect_content=True)
         return
     
     verify_status = await get_verify_status(message.from_user.id)
@@ -102,11 +102,17 @@ async def start(client, message):
             await update_verify_status(message.from_user.id, verify_token=token, link="" if mc == 'inline_verify' else mc)
             link = await get_shortlink(SHORTLINK_URL, SHORTLINK_API, f'https://t.me/{temp.U_NAME}?start=verify_{token}')
             btn = [[
-                InlineKeyboardButton("🧿 Verify 🧿", url=link)
+                InlineKeyboardButton("Verify", url=link)
             ],[
-                InlineKeyboardButton('🗳 Tutorial 🗳', url=VERIFY_TUTORIAL)
+                InlineKeyboardButton('‼️ How To Verify❓', url=VERIFY_TUTORIAL)
             ]]
-            await message.reply("You not verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
+            await message.reply("Yᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴠᴇʀɪғɪᴇᴅ!
+
+Kɪɴᴅʟʏ ᴠᴇʀɪғʏ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ Sᴏ ᴛʜᴀᴛ ʏᴏᴜ ᴄᴀɴ ɢᴇᴛ ᴀᴄᴄᴇss ᴛᴏ ᴜɴʟɪᴍɪᴛᴇᴅ ᴍᴏᴠɪᴇs ᴜɴᴛɪʟ 1 ʜᴏᴜʀ ғʀᴏᴍ ɴᴏᴡ !
+
+Yᴏᴜ ᴄᴀɴ BUY ᴏᴜʀ Pʀᴇᴍɪᴜᴍ Sᴜʙsᴄʀɪᴘᴛɪᴏɴ ᴘʟᴀɴs ᴀᴛ ᴄʜᴇᴀᴘᴇʀ ᴘʀɪᴄᴇs ᴛᴏ ᴀᴠᴏɪᴅ ᴛʜᴇ ᴠᴇʀɪғɪᴄᴀᴛɪᴏɴ ᴘʀᴏᴄᴇssᴇs ᴀɴᴅ ɢᴇᴛ ᴅɪʀᴇᴄᴛ ғɪʟᴇs ᴏғ ʏᴏᴜʀ ғᴀᴠᴏᴜʀɪᴛᴇ ᴍᴏᴠɪᴇs ᴏʀ sᴇʀɪᴇs...
+
+Usᴇ /myplan ᴄᴏᴍᴍᴀɴᴅ ᴛᴏ ᴋɴᴏᴡ ᴍᴏʀᴇ !", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
             return
     else:
         pass
