@@ -106,13 +106,7 @@ async def start(client, message):
             ],[
                 InlineKeyboardButton('‼️ How To Verify❓', url=VERIFY_TUTORIAL)
             ]]
-            await message.reply("Yᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴠᴇʀɪғɪᴇᴅ!
-
-Kɪɴᴅʟʏ ᴠᴇʀɪғʏ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ Sᴏ ᴛʜᴀᴛ ʏᴏᴜ ᴄᴀɴ ɢᴇᴛ ᴀᴄᴄᴇss ᴛᴏ ᴜɴʟɪᴍɪᴛᴇᴅ ᴍᴏᴠɪᴇs ᴜɴᴛɪʟ 1 ʜᴏᴜʀ ғʀᴏᴍ ɴᴏᴡ !
-
-Yᴏᴜ ᴄᴀɴ BUY ᴏᴜʀ Pʀᴇᴍɪᴜᴍ Sᴜʙsᴄʀɪᴘᴛɪᴏɴ ᴘʟᴀɴs ᴀᴛ ᴄʜᴇᴀᴘᴇʀ ᴘʀɪᴄᴇs ᴛᴏ ᴀᴠᴏɪᴅ ᴛʜᴇ ᴠᴇʀɪғɪᴄᴀᴛɪᴏɴ ᴘʀᴏᴄᴇssᴇs ᴀɴᴅ ɢᴇᴛ ᴅɪʀᴇᴄᴛ ғɪʟᴇs ᴏғ ʏᴏᴜʀ ғᴀᴠᴏᴜʀɪᴛᴇ ᴍᴏᴠɪᴇs ᴏʀ sᴇʀɪᴇs...
-
-Usᴇ /myplan ᴄᴏᴍᴍᴀɴᴅ ᴛᴏ ᴋɴᴏᴡ ᴍᴏʀᴇ !", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
+            await message.reply("Yᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴠᴇʀɪғɪᴇᴅ!\nKɪɴᴅʟʏ ᴠᴇʀɪғʏ ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ Sᴏ ᴛʜᴀᴛ ʏᴏᴜ ᴄᴀɴ ɢᴇᴛ ᴀᴄᴄᴇss ᴛᴏ ᴜɴʟɪᴍɪᴛᴇᴅ ᴍᴏᴠɪᴇs ᴜɴᴛɪʟ 1 ʜᴏᴜʀ ғʀᴏᴍ ɴᴏᴡ !\nYᴏᴜ ᴄᴀɴ BUY ᴏᴜʀ Pʀᴇᴍɪᴜᴍ Sᴜʙsᴄʀɪᴘᴛɪᴏɴ ᴘʟᴀɴs ᴀᴛ ᴄʜᴇᴀᴘᴇʀ ᴘʀɪᴄᴇs ᴛᴏ ᴀᴠᴏɪᴅ ᴛʜᴇ ᴠᴇʀɪғɪᴄᴀᴛɪᴏɴ ᴘʀᴏᴄᴇssᴇs ᴀɴᴅ ɢᴇᴛ ᴅɪʀᴇᴄᴛ ғɪʟᴇs ᴏғ ʏᴏᴜʀ ғᴀᴠᴏᴜʀɪᴛᴇ ᴍᴏᴠɪᴇs ᴏʀ sᴇʀɪᴇs...\nUsᴇ /myplan ᴄᴏᴍᴍᴀɴᴅ ᴛᴏ ᴋɴᴏᴡ ᴍᴏʀᴇ !", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
             return
     else:
         pass
