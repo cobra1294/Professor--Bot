@@ -107,13 +107,13 @@ LANGUAGES = [language.lower() for language in environ.get('LANGUAGES', 'english 
 # Other
 IMDB_TEMPLATE = environ.get("IMDB_TEMPLATE", script.IMDB_TEMPLATE)
 FILE_CAPTION = environ.get("FILE_CAPTION", script.FILE_CAPTION)
-SHORTLINK_URL = environ.get("SHORTLINK_URL", "omnifly.in.net")
-SHORTLINK_API = environ.get("SHORTLINK_API", "e102d710cbf871cc94b3657cabeb2617521bd720")
+SHORTLINK_URL = environ.get("SHORTLINK_URL", "publicearn.com")
+SHORTLINK_API = environ.get("SHORTLINK_API", "1a3d9347e5fc541c9e4804eae376d143f7236cab")
 VERIFY_EXPIRE = int(environ.get('VERIFY_EXPIRE', "3600")) # Add time in seconds
 IS_VERIFY = is_enabled(environ.get("IS_VERIFY", "True"), True)
 WELCOME_TEXT = environ.get("WELCOME_TEXT", script.WELCOME_TEXT)
-TUTORIAL = environ.get("TUTORIAL", "https://t.me/how_to_openlinkz/10")
-VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/how_to_openlinkz/13")
+TUTORIAL = environ.get("TUTORIAL", "https://t.me/how_to_openlinkz/20")
+VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/how_to_openlinkz/20")
 INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTENSIONS', 'mp4 mkv').split()]
 
 # stream features vars
