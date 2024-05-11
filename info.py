@@ -83,10 +83,6 @@ SUPPORT_LINK = environ.get('SUPPORT_LINK', 'https://t.me/mybotsupport')
 UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/moviez_areas')
 FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/+cikLkbDz4T01N2Q1')
 
-#stream link shortner
-STREAM_SITE = (environ.get('STREAM_SITE', 'onepagelink.in'))
-STREAM_API = (environ.get('STREAM_API', '9da5a04d91f1d1c6f3570503c56fb4a101fe2f89'))
-STREAMHTO = (environ.get('STREAMHTO', 'https://t.me/how_to_openlinkz/18'))
 
 # Bot settings
 AUTO_FILTER = is_enabled((environ.get('AUTO_FILTER', "True")), True)
@@ -103,7 +99,7 @@ CACHE_TIME = int(environ.get('CACHE_TIME', 300))
 MAX_BTN = int(environ.get('MAX_BTN', 10))
 PAYMENT_QR = environ.get('PAYMENT_QR', 'https://graph.org/file/46fd33d87206259d3071b.jpg')
 LANGUAGES = [language.lower() for language in environ.get("LANGUAGES", "malayalam", "mal", "tamil", "tam", "english", "eng", "hindi", "hin", "telugu", "tel", "kannada", "kan", "gujarati", "kor", "single", "dual", "multi", "").split()]
-PM_DELETE_TIME = int(environ.get('PM_DELETE_TIME', 600))
+PM_DELETE_TIME = int(environ.get('PM_DELETE_TIME', 1200))
 
 # Other
 IS_PM_SEARCH = is_enabled('IS_PM_SEARCH', True)
