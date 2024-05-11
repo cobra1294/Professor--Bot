@@ -1,5 +1,3 @@
-import os
-import logging
 import random, string
 import asyncio
 import time
@@ -10,7 +8,7 @@ from pyrogram.errors import ChatAdminRequired, FloodWait, ButtonDataInvalid
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, delete_files
 from database.users_chats_db import db
-from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_TUTORIAL, VERIFY_EXPIRE, TUTORIAL, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT, IS_STREAM, IS_FSUB, PAYMENT_QR
+from info import INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_TUTORIAL, VERIFY_EXPIRE, TUTORIAL, SHORTLINK_API, SHORTLINK_URL, AUTH_CHANNEL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, PROTECT_CONTENT, IS_STREAM, IS_FSUB, PAYMENT_QR, OWNER_USERNAME, REACTIONS, PM_DELETE_TIME as pm_delete_time
 from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, get_verify_status, update_verify_status, save_group_settings, temp, get_readable_time, get_wish, get_seconds
 import re
 import json
@@ -22,6 +20,10 @@ from telegraph import upload_file
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     botid = client.me.id
+    try:
+        await message.react(emoji=random.choice(REACTIONS), big=True)
+    except:
+        await message.react(emoji="⚡️", big=True)
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         if not await db.get_chat(message.chat.id):
             total = await client.get_chat_members_count(message.chat.id)
@@ -83,7 +85,8 @@ async def start(client, message):
         _, token = mc.split("_", 1)
         verify_status = await get_verify_status(message.from_user.id)
         if verify_status['verify_token'] != token:
-            return await message.reply("𝙿𝙻𝙴𝙰𝚂𝙴 𝚂𝙴𝙰𝚁𝙲𝙷 𝙰𝙶𝙰𝙸𝙽 𝙸𝙽 𝙶𝚁𝙾𝚄𝙿")
+            return await message.reply("ʏᴏᴜʀ ᴠᴇʀғɪʏ ᴛᴏᴋᴇɴ ɪs ɪɴᴠᴀʟɪᴅ")
+        expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=VERIFY_EXPIRE)
         await update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time())
         if verify_status["link"] == "":
             reply_markup = None
@@ -163,6 +166,18 @@ async def start(client, message):
                 protect_content=settings['file_secure'],
                 reply_markup=InlineKeyboardMarkup(btn)
             )
+            file_ids.append(msg.id)
+        time = get_readable_time(int(pm_delete_time))
+        vp = await message.reply(f"Nᴏᴛᴇ: Tʜɪs ғɪʟᴇs ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇ ɪɴ {time} ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛs. Sᴀᴠᴇ ᴛʜᴇ ғɪʟᴇs ᴛᴏ sᴏᴍᴇᴡʜᴇʀᴇ ᴇʟsᴇ")
+        await asyncio.sleep(int(pm_delete_time))
+        btns = [[
+            InlineKeyboardButton('ɢᴇᴛ ғɪʟᴇs ᴀɢᴀɪɴ', callback_data=f"getmultifile_{key}_{grp_id}")
+        ]]
+        await client.delete_messages(
+            chat_id=message.chat.id,
+            message_ids=file_ids
+        )
+        await vp.edit("Tʜᴇ ғɪʟᴇ ʜᴀs ʙᴇᴇɴ ɢᴏɴᴇ ! Cʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ɪᴛ ᴀɢᴀɪɴ.", reply_markup=InlineKeyboardMarkup(btns))
         return
 
     type_, grp_id, file_id = mc.split("_", 2)
