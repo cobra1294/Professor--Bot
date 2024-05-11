@@ -120,7 +120,7 @@ async def index_files_to_db(lst_msg_id, chat, msg, bot, skip):
                     unsupported += 1
                     continue
                 media.caption = message.caption
-                file_name = re.sub(r"@\w+|(_|\-|\.|\+)", " ", str(media.file_name))
+                file_name = re.sub(r"@\w+|[](_|\-|\.|\+)", " ", str(media.file_name))
                 sts = await save_file(media)
                 if sts == 'suc':
                     total_files += 1
