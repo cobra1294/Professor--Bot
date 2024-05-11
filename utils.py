@@ -33,7 +33,10 @@ class temp(object):
 
 async def is_subscribed(bot, query, channel):
     btn = []
-    for id in channel:
+    if AUTH_CHANNEL:
+        channel.append(AUTH_CHANNEL)
+    for chat_id in channel:
+        id = chat_id[0]
         chat = await bot.get_chat(int(id))
         try:
             await bot.get_chat_member(id, query.from_user.id)
@@ -139,12 +142,13 @@ async def get_verify_status(user_id):
         temp.VERIFICATIONS[user_id] = verify
     return verify
 
-async def update_verify_status(user_id, verify_token="", is_verified=False, verified_time=0, link=""):
+async def update_verify_status(user_id, verify_token="", is_verified=False, verified_time=0, link="", expire_time=0):
     current = await get_verify_status(user_id)
     current['verify_token'] = verify_token
     current['is_verified'] = is_verified
     current['verified_time'] = verified_time
     current['link'] = link
+    current['expire_time'] = expire_time
     temp.VERIFICATIONS[user_id] = current
     await db.update_verify_status(user_id, current)
     
