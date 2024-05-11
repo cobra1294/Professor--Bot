@@ -1,13 +1,14 @@
 import random
 import asyncio
-import re, time
+import re
+from time import time as time_now
 import ast
 import math
 from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
 from Script import script
 from datetime import datetime, timedelta
 import pyrogram
-from info import ADMINS, URL, MAX_BTN, BIN_CHANNEL, IS_STREAM, DELETE_TIME, FILMS_LINK, AUTH_CHANNEL, IS_VERIFY, VERIFY_EXPIRE, LOG_CHANNEL, SUPPORT_GROUP, SUPPORT_LINK, UPDATES_LINK, PICS, PROTECT_CONTENT, IMDB, AUTO_FILTER, SPELL_CHECK, IMDB_TEMPLATE, AUTO_DELETE, LANGUAGES, IS_FSUB, PAYMENT_QR
+from info import ADMINS, URL, MAX_BTN, BIN_CHANNEL, IS_STREAM, DELETE_TIME, FILMS_LINK, AUTH_CHANNEL, IS_VERIFY, VERIFY_EXPIRE, LOG_CHANNEL, SUPPORT_GROUP, SUPPORT_LINK, UPDATES_LINK, PICS, PROTECT_CONTENT, IMDB, AUTO_FILTER, SPELL_CHECK, IMDB_TEMPLATE, AUTO_DELETE, LANGUAGES, IS_FSUB, PAYMENT_QR, PM_DELETE_TIME as pm_delete_time
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, ChatPermissions
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid, ChatAdminRequired
@@ -19,12 +20,35 @@ import logging
 BUTTONS = {}
 CAP = {}
 
+@Client.on_message(filters.private & filters.text & filters.incoming)
+async def pm_search(client, message):
+    bot_id = client.me.id
+    files, n_offset, total = await get_search_results(message.text)
+    btn = [[
+        InlineKeyboardButton("🗂 ᴄʟɪᴄᴋ ʜᴇʀᴇ 🗂", url=FILMS_LINK)
+    ]]
+    reply_markup=InlineKeyboardMarkup(btn)
+    if await db.get_pm_search_status(bot_id):
+        if 'hindi' in message.text.lower() or 'tamil' in message.text.lower() or 'telugu' in message.text.lower() or 'malayalam' in message.text.lower() or 'kannada' in message.text.lower() or 'english' in message.text.lower() or 'gujarati' in message.text.lower(): 
+            return await auto_filter(client, message)
+        await auto_filter(client, message)
+    else:
+        if int(total) != 0:
+            await message.reply_text(f'<b><i>🤗 ᴛᴏᴛᴀʟ <code>{total}</code> ʀᴇꜱᴜʟᴛꜱ ꜰᴏᴜɴᴅ ɪɴ ᴛʜɪꜱ ɢʀᴏᴜᴘ 👇</i></b>', reply_markup=reply_markup)
+        else:
+            await message.reply_text(f'<b><i>📢 ꜱᴇɴᴅ ᴍᴏᴠɪᴇ ᴏʀ ꜱᴇʀɪᴇꜱ ʀᴇǫᴜᴇꜱᴛ ʜᴇʀᴇ 👇</i></b>', reply_markup=reply_markup)
+
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
+        total = await client.get_chat_members_count(message.chat.id)
+        username = f'@{message.chat.username}' if message.chat.username else 'Private'
+        await client.send_message(LOG_CHANNEL, script.NEW_GROUP_TXT.format(message.chat.title, message.chat.id, username, total))       
+        await db.add_chat(message.chat.id, message.chat.title)
     settings = await get_settings(message.chat.id)
     chatid = message.chat.id
     userid = message.from_user.id if message.from_user else None
-    fsub = settings['fsub']
+    user_id = message.from_user.id if message.from_user else 0
+    fsub = settings['fsub'] if not await db.has_premium_access(message.from_user.id) else None
     if settings.get('is_fsub', IS_FSUB) and fsub is not None:
         try:
             btn = await is_subscribed(client, message, int(fsub))
@@ -113,15 +137,6 @@ async def give_filter(client, message):
             await message.delete()
         except:
             pass
-
-@Client.on_message(filters.private & filters.text)
-async def pm_search(client, message):
-    files, n_offset, total = await get_search_results(message.text)
-    if int(total) != 0:
-        btn = [[
-            InlineKeyboardButton("Here", url=FILMS_LINK)
-        ]]
-        await message.reply_text(f'Total {total} results found in this group', reply_markup=InlineKeyboardMarkup(btn))
 
 @Client.on_callback_query(filters.regex(r"^next"))
 async def next_page(bot, query):
@@ -752,6 +767,107 @@ async def cb_handler(client: Client, query: CallbackQuery):
         else:
             await query.message.reply('Nothing to kick deleted accounts.')
 
+elif query.data.startswith("getfile"):
+        _, file_id, grp_id = query.data.split("#")
+        if not await db.has_premium_access(query.from_user.id):
+            protect_content = True
+        else:
+            protect_content = False
+        settings = await get_settings(int(grp_id))
+        files_ = await get_file_details(file_id)
+        files = files_[0]
+        CAPTION = settings['caption']
+        f_caption = CAPTION.format(
+            file_name = files.file_name,
+            file_size = get_size(files.file_size),
+            file_caption=files.caption
+        )
+        if settings.get('is_stream', IS_STREAM):
+            btn = [[
+                InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
+            ],[
+                InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+                InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
+            ],[
+                InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+            ]]
+        else:
+            btn = [[
+                InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+                InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
+            ],[
+                InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+            ]]
+        vp = await client.send_cached_media(
+            chat_id=query.from_user.id,
+            file_id=file_id,
+            caption=f_caption,
+            protect_content=protect_content,
+            reply_markup=InlineKeyboardMarkup(btn)
+        )
+        time = get_readable_time(int(pm_delete_time))
+        msg = await vp.reply(f"Nᴏᴛᴇ: Tʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇ ɪɴ {time} ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛs. Sᴀᴠᴇ ᴛʜᴇ ғɪʟᴇ ᴛᴏ sᴏᴍᴇᴡʜᴇʀᴇ ᴇʟsᴇ")
+        await asyncio.sleep(int(pm_delete_time))
+        btns = [[
+            InlineKeyboardButton('ɢᴇᴛ ғɪʟᴇ ᴀɢᴀɪɴ', callback_data=f"getfile#{file_id}#{grp_id}")
+        ]]
+        await msg.delete()
+        await vp.delete()
+        await vp.reply("Tʜᴇ ғɪʟᴇ ʜᴀs ʙᴇᴇɴ ɢᴏɴᴇ ! Cʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ɪᴛ ᴀɢᴀɪɴ.", reply_markup=InlineKeyboardMarkup(btns))
+
+    elif query.data.startswith("getmultifile"):
+        _, key, grp_id = query.data.split("_")
+        files = temp.FILES.get(key)
+        settings = await get_settings(int(grp_id))
+        if not files:
+            return await message.reply('No Such All Files Exist!')
+        for file in files:
+            CAPTION = settings['caption']
+            f_caption = CAPTION.format(
+                file_name = file.file_name,
+                file_size = get_size(file.file_size),
+                file_caption=file.caption
+            )   
+            if settings.get('is_stream', IS_STREAM):
+                btn = [[
+                    InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
+                ],[
+                    InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+                    InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
+                ],[
+                    InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+                ]]
+            else:
+                btn = [[
+                    InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+                    InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
+                ],[
+                    InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+                ]]
+            msg = await client.send_cached_media(
+                chat_id=query.from_user.id,
+                file_id=file.file_id,
+                caption=f_caption,
+                protect_content=settings['file_secure'],
+                reply_markup=InlineKeyboardMarkup(btn)
+            )
+            file_ids.append(msg.id)
+            fileids += f"{file.file_id}#"
+        files_ids = fileids[:-1]
+        time = get_readable_time(int(pm_delete_time))
+        vp = await query.message.reply(f"Nᴏᴛᴇ: Tʜɪs ғɪʟᴇs ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇ ɪɴ {time} ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛs. Sᴀᴠᴇ ᴛʜᴇ ғɪʟᴇs ᴛᴏ sᴏᴍᴇᴡʜᴇʀᴇ ᴇʟsᴇ")
+        await asyncio.sleep(int(pm_delete_time))
+        btns = [[
+            InlineKeyboardButton('ɢᴇᴛ ғɪʟᴇs ᴀɢᴀɪɴ', callback_data=f"getmultifile_{files_ids}_{grp_id}")
+        ]]
+        await client.delete_messages(
+            chat_id=message.chat.id,
+            message_ids=file_ids
+        )
+        await vp.edit("Tʜᴇ ғɪʟᴇs ʜᴀs ʙᴇᴇɴ ɢᴏɴᴇ ! Cʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ɪᴛ ᴀɢᴀɪɴ.", reply_markup=InlineKeyboardMarkup(btns))
+        return
+
+
 async def auto_filter(client, msg, spoll=False):
     if not spoll:
         message = msg
@@ -766,8 +882,10 @@ async def auto_filter(client, msg, spoll=False):
         settings = await get_settings(msg.message.chat.id)
         message = msg.message.reply_to_message  # msg will be callback query
         search, files, offset, total_results = spoll
-    if spoll:
-        await msg.message.delete()
+    try:
+        await message.react(emoji="🔍")
+    except:
+        pass
     req = message.from_user.id if message.from_user else 0
     key = f"{message.chat.id}-{message.id}"
     temp.FILES[key] = files
@@ -905,6 +1023,7 @@ async def auto_filter(client, msg, spoll=False):
                 pass
         else:
             await message.reply_text(cap + files_link + del_msg, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+    await asyncio.sleep(30)
 
 async def advantage_spell_chok(message):
     search = message.text
