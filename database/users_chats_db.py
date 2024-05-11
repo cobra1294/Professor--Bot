@@ -1,5 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from info import DATABASE_NAME, DATABASE_URL, IMDB_TEMPLATE, WELCOME_TEXT, AUTH_CHANNEL, LINK_MODE, TUTORIAL, SHORTLINK_URL, SHORTLINK_API, SHORTLINK, FILE_CAPTION, IMDB, WELCOME, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE, IS_STREAM
+from info import DATABASE_NAME, DATABASE_URL, IMDB_TEMPLATE, WELCOME_TEXT, AUTH_CHANNEL, LINK_MODE, TUTORIAL, SHORTLINK_URL, SHORTLINK_API, SHORTLINK, FILE_CAPTION, IMDB, WELCOME, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE, IS_STREAM, IS_FSUB, VERIFY_EXPIRE, IS_PM_SEARCH
 import time
 import datetime
 
@@ -23,20 +23,23 @@ class Database:
         'tutorial': TUTORIAL,
         'links': LINK_MODE,
         'fsub': AUTH_CHANNEL,
-        'is_stream': IS_STREAM
+        'is_stream': IS_STREAM,
+        'is_fsub': IS_FSUB
     }
 
     default_verify = {
         'is_verified': False,
         'verified_time': 0,
         'verify_token': "",
-        'link': ""
+        'link': "",
+        'expire_time': 0
     }
     
     def __init__(self):
         self.col = mydb.Users
         self.grp = mydb.Groups
         self.users = mydb.uersz
+        self.botcol = mydb["bot_id"]
 
     def new_user(self, id, name):
         return dict(
@@ -146,7 +149,15 @@ class Database:
     async def get_verify_status(self, user_id):
         user = await self.col.find_one({'id':int(user_id)})
         if user:
-            return user.get('verify_status', self.default_verify)
+            info = user.get('verify_status', self.default_verify)
+            try:
+                info.get('expire_time')
+            except:
+                expire_time = info.get('verified_time') + datetime.timedelta(seconds=VERIFY_EXPIRE)
+                info.append({
+                    'expire_time': expire_time
+                })
+            return info
         return self.default_verify
         
     async def update_verify_status(self, user_id, verify):
@@ -210,5 +221,19 @@ class Database:
         })
         return count
 
+    async def get_pm_search_status(self, bot_id):
+        bot = await self.botcol.find_one({'id': bot_id})
+        if bot and bot.get('bot_pm_search'):
+            return bot['bot_pm_search']
+        else:
+            return IS_PM_SEARCH
+
+    async def update_pm_search_status(self, bot_id, enable):
+        bot = await self.botcol.find_one({'id': int(bot_id)})
+        if bot:
+            await self.botcol.update_one({'id': int(bot_id)}, {'$set': {'bot_pm_search': enable}})
+        else:
+            await self.botcol.insert_one({'id': int(bot_id), 'bot_pm_search': enable})
+
 db = Database()
-        
+    
