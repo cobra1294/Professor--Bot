@@ -102,9 +102,11 @@ LINK_MODE = is_enabled(environ.get("LINK_MODE", "True"), True)
 CACHE_TIME = int(environ.get('CACHE_TIME', 300))
 MAX_BTN = int(environ.get('MAX_BTN', 10))
 PAYMENT_QR = environ.get('PAYMENT_QR', 'https://graph.org/file/46fd33d87206259d3071b.jpg')
-LANGUAGES = [language.lower() for language in environ.get('LANGUAGES', 'english hindi telugu tamil kannada malayalam').split()]
+LANGUAGES = [language.lower() for language in environ.get("LANGUAGES", "malayalam", "mal", "tamil", "tam", "english", "eng", "hindi", "hin", "telugu", "tel", "kannada", "kan", "gujarati", "kor", "single", "dual", "multi", "").split()]
+PM_DELETE_TIME = int(environ.get('PM_DELETE_TIME', 600))
 
 # Other
+IS_PM_SEARCH = is_enabled('IS_PM_SEARCH', True)
 IMDB_TEMPLATE = environ.get("IMDB_TEMPLATE", script.IMDB_TEMPLATE)
 FILE_CAPTION = environ.get("FILE_CAPTION", script.FILE_CAPTION)
 SHORTLINK_URL = environ.get("SHORTLINK_URL", "publicearn.com")
@@ -115,6 +117,9 @@ WELCOME_TEXT = environ.get("WELCOME_TEXT", script.WELCOME_TEXT)
 TUTORIAL = environ.get("TUTORIAL", "https://t.me/how_to_openlinkz/20")
 VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/how_to_openlinkz/20")
 INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTENSIONS', 'mp4 mkv').split()]
+
+#start_command_reactions
+REACTIONS = ["🤝", "😇", "🤗", "😍", "👍", "😐", "🥰", "🤩", "😱", "🤣", "😘", "👏", "😛", "😈", "🎉", "⚡️", "🫡", "🤓", "😎", "🏆", "🔥", "🤭", "🌚", "🆒", "👻", "😁"]
 
 # stream features vars
 IS_STREAM = is_enabled('IS_STREAM', False)
