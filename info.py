@@ -98,7 +98,7 @@ LINK_MODE = is_enabled(environ.get("LINK_MODE", "True"), True)
 CACHE_TIME = int(environ.get('CACHE_TIME', 300))
 MAX_BTN = int(environ.get('MAX_BTN', 10))
 PAYMENT_QR = environ.get('PAYMENT_QR', 'https://graph.org/file/46fd33d87206259d3071b.jpg')
-LANGUAGES = [language.lower() for language in environ.get("LANGUAGES", "malayalam", "mal", "tamil", "tam", "english", "eng", "hindi", "hin", "telugu", "tel", "kannada", "kan", "gujarati", "kor", "single", "dual", "multi", "").split()]
+LANGUAGES = [language.lower() for language in environ.get('LANGUAGES', 'tam hin tel kan mal eng multi dual').split()]
 PM_DELETE_TIME = int(environ.get('PM_DELETE_TIME', 1200))
 
 # Other
