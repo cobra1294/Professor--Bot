@@ -40,6 +40,7 @@ async def pm_search(client, message):
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
+    if not await db.get_chat(message.chat.id):
         total = await client.get_chat_members_count(message.chat.id)
         username = f'@{message.chat.username}' if message.chat.username else 'Private'
         await client.send_message(LOG_CHANNEL, script.NEW_GROUP_TXT.format(message.chat.title, message.chat.id, username, total))       
