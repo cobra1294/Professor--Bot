@@ -768,7 +768,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         else:
             await query.message.reply('Nothing to kick deleted accounts.')
 
-elif query.data.startswith("getfile"):
+    elif query.data.startswith("getfile"):
         _, file_id, grp_id = query.data.split("#")
         if not await db.has_premium_access(query.from_user.id):
             protect_content = True
@@ -782,7 +782,7 @@ elif query.data.startswith("getfile"):
             file_name = files.file_name,
             file_size = get_size(files.file_size),
             file_caption=files.caption
-        )
+        )    
         if settings.get('is_stream', IS_STREAM):
             btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
@@ -867,8 +867,7 @@ elif query.data.startswith("getfile"):
         )
         await vp.edit("Tʜᴇ ғɪʟᴇs ʜᴀs ʙᴇᴇɴ ɢᴏɴᴇ ! Cʟɪᴄᴋ ɢɪᴠᴇɴ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ɪᴛ ᴀɢᴀɪɴ.", reply_markup=InlineKeyboardMarkup(btns))
         return
-
-
+                               
 async def auto_filter(client, msg, spoll=False):
     if not spoll:
         message = msg
