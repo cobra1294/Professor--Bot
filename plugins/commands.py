@@ -92,7 +92,7 @@ async def start(client, message):
         if verify_status['verify_token'] != token:
             return await message.reply("ʏᴏᴜʀ ᴠᴇʀғɪʏ ᴛᴏᴋᴇɴ ɪs ɪɴᴠᴀʟɪᴅ")
         expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=VERIFY_EXPIRE)
-        await update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time())
+        await update_verify_status(message.from_user.id, is_verified=True, verified_time=time.time(), expire_time=expire_time)
         if verify_status["link"] == "":
             reply_markup = None
         else:
