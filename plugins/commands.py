@@ -121,6 +121,7 @@ async def start(client, message):
 
     settings = await get_settings(int(mc.split("_", 2)[1]))
     if settings.get('is_fsub', IS_FSUB) and not await db.has_premium_access(message.from_user.id):
+        if settings['fsub'] is not None:
         btn = await is_subscribed(client, message, settings['fsub'])
         if btn:
             btn.append(
