@@ -100,7 +100,7 @@ async def start(client, message):
                 InlineKeyboardButton("📌 Get File 📌", url=f'https://t.me/{temp.U_NAME}?start={verify_status["link"]}')
             ]]
             reply_markup = InlineKeyboardMarkup(btn)
-        await message.reply(f"✅ You Are Successfully Verified For: {get_readable_time(VERIFY_EXPIRE)} Get Unlimited Files Till Verified Time🥳🤝", reply_markup=reply_markup, protect_content=True)
+        await message.reply(f"✅ You Are Successfully Verified For: {get_readable_time(VERIFY_EXPIRE)} Get Files Till Verified Time", reply_markup=reply_markup, protect_content=True)
         return
     
     verify_status = await get_verify_status(message.from_user.id)
