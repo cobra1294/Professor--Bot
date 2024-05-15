@@ -115,7 +115,7 @@ VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/how_to_openlinkz/
 INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTENSIONS', 'mp4 mkv').split()]
 
 #start_command_reactions
-REACTIONS = ["🤝", "😇", "🤗", "😍", "👍", "😐", "🥰", "🤩", "😱", "🤣", "😘", "👏", "😛", "😈", "🎉", "⚡️", "🫡", "🤓", "😎", "🏆", "🔥", "🤭", "🌚", "🆒", "👻", "😁"]
+REACTIONS = ["🤝", "😇", "🤗", "😍", "👍", "😐", "🥰", "😱", "🤣", "😘", "😛", "⚡️"]
 
 # stream features vars
 IS_STREAM = is_enabled('IS_STREAM', False)
