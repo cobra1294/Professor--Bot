@@ -394,10 +394,6 @@ async def save_caption(client, message):
         
 @Client.on_message(filters.command('set_shortlink'))
 async def save_shortlink(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
     userid = message.from_user.id if message.from_user else None
     if not userid:
         return await message.reply("<b>You are Anonymous admin you can't use this command !</b>")
