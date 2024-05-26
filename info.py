@@ -105,12 +105,12 @@ PM_DELETE_TIME = int(environ.get('PM_DELETE_TIME', 1200))
 IS_PM_SEARCH = is_enabled('IS_PM_SEARCH', True)
 IMDB_TEMPLATE = environ.get("IMDB_TEMPLATE", script.IMDB_TEMPLATE)
 FILE_CAPTION = environ.get("FILE_CAPTION", script.FILE_CAPTION)
-SHORTLINK_URL = environ.get("SHORTLINK_URL", "onepagelink.in")
-SHORTLINK_API = environ.get("SHORTLINK_API", "9da5a04d91f1d1c6f3570503c56fb4a101fe2f89")
+SHORTLINK_URL = environ.get("SHORTLINK_URL", "moneykamalo.com")
+SHORTLINK_API = environ.get("SHORTLINK_API", "60194c2494812fa1ac565d03aa1e6975b790aa1f")
 VERIFY_EXPIRE = int(environ.get('VERIFY_EXPIRE', "3600")) # Add time in seconds
 IS_VERIFY = is_enabled(environ.get("IS_VERIFY", "False"), False)
 WELCOME_TEXT = environ.get("WELCOME_TEXT", script.WELCOME_TEXT)
-TUTORIAL = environ.get("TUTORIAL", "https://t.me/how_to_openlinkz/18")
+TUTORIAL = environ.get("TUTORIAL", "https://t.me/how_to_openlinkz/19")
 VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/how_to_openlinkz/19")
 INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTENSIONS', 'mp4 mkv').split()]
 
