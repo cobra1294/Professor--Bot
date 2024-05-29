@@ -32,18 +32,6 @@ Total - <code>{}</code>
 ★ ID: <code>{}</code>
 @soloqueen12_bot"""
 
-    NO_RESULT_TXT = """#NoResult
-★ Group Name: {}
-★ Group ID: <code>{}</code>
-★ Name: {}
-
-★ Message: {}"""
-
-    REQUEST_TXT = """★ Name: {}
-★ ID: <code>{}</code>
-
-★ Message: {}"""
-
     NOT_FILE_TXT = """👋 Hello {},
 
 I can't find the <b>{}</b> in my database! 🥲
@@ -147,3 +135,30 @@ I can't find the <b>{}</b> in my database! 🥲
 
 ᴅᴇᴠʟᴏᴘᴇʀ -
 <a href=https://telegram.me/meera12_bot ʀᴏʟᴇx</a></b>"""
+    
+    PREMIUM_PLAN_TEXT = """<b><i><u>- ᴀᴠᴀɪʟᴀʙʟᴇ ᴘʟᴀɴs - </u>
+
+- 30ʀs - 1 ᴡᴇᴇᴋ
+- 50ʀs - 1 ᴍᴏɴᴛʜs
+- 120ʀs - 3 ᴍᴏɴᴛʜs
+- 220ʀs - 6 ᴍᴏɴᴛʜs
+
+<u>🎁 ᴘʀᴇᴍɪᴜᴍ ғᴇᴀᴛᴜʀᴇs 🎁</u>
+
+○ ɴᴏ ɴᴇᴇᴅ ᴛᴏ ᴠᴇʀɪғʏ
+○ ɴᴏ ɴᴇᴇᴅ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ
+○ ᴅɪʀᴇᴄᴛ ғɪʟᴇs   
+○ ᴀᴅ-ғʀᴇᴇ ᴇxᴘᴇʀɪᴇɴᴄᴇ 
+○ ʜɪɢʜ-sᴘᴇᴇᴅ ᴅᴏᴡɴʟᴏᴀᴅ ʟɪɴᴋ                           
+○ ᴜɴʟɪᴍɪᴛᴇᴅ ᴍᴏᴠɪᴇs & sᴇʀɪᴇs                                                                         
+○ ꜰᴜʟʟ ᴀᴅᴍɪɴ sᴜᴘᴘᴏʀᴛ                              
+○ ʀᴇǫᴜᴇsᴛ ᴡɪʟʟ ʙᴇ ᴄᴏᴍᴘʟᴇᴛᴇᴅ ɪɴ 1ʜ ɪꜰ ᴀᴠᴀɪʟᴀʙʟᴇ   
+
+✨ ᴜᴘɪ ɪᴅ - <code>{}</code>
+
+ᴄʟɪᴄᴋ ᴛᴏ ᴄʜᴇᴄᴋ ʏᴏᴜʀ ᴀᴄᴛɪᴠᴇ ᴘʟᴀɴ /myplan
+
+💢 ᴍᴜsᴛ sᴇɴᴅ sᴄʀᴇᴇɴsʜᴏᴛ ᴀғᴛᴇʀ ᴘᴀʏᴍᴇɴᴛ
+
+‼️ ᴀғᴛᴇʀ sᴇɴᴅɪɴɢ ᴀ sᴄʀᴇᴇɴsʜᴏᴛ ᴘʟᴇᴀsᴇ ɢɪᴠᴇ ᴜs sᴏᴍᴇ ᴛɪᴍᴇ ᴛᴏ ᴀᴅᴅ ʏᴏᴜ ɪɴ ᴛʜᴇ ᴘʀᴇᴍɪᴜᴍ ʟɪsᴛ</i></b>"""
+
