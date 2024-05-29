@@ -138,10 +138,11 @@ I can't find the <b>{}</b> in my database! 🥲
     
     PREMIUM_PLAN_TEXT = """<b><i><u>- ᴀᴠᴀɪʟᴀʙʟᴇ ᴘʟᴀɴs - </u>
 
-- 30ʀs - 1 ᴡᴇᴇᴋ
-- 50ʀs - 1 ᴍᴏɴᴛʜs
-- 120ʀs - 3 ᴍᴏɴᴛʜs
-- 220ʀs - 6 ᴍᴏɴᴛʜs
+➛ 7ʀs    - 1 ᴡᴇᴇᴋ
+➛ 20ʀs   - 1 ᴍᴏɴᴛʜs
+➛ 55ʀs   - 3 ᴍᴏɴᴛʜs
+➛ 110ʀs  - 6 ᴍᴏɴᴛʜs
+➛ 220ʀs  - 12 ᴍᴏɴᴛʜs
 
 <u>🎁 ᴘʀᴇᴍɪᴜᴍ ғᴇᴀᴛᴜʀᴇs 🎁</u>
 
@@ -154,7 +155,8 @@ I can't find the <b>{}</b> in my database! 🥲
 ○ ꜰᴜʟʟ ᴀᴅᴍɪɴ sᴜᴘᴘᴏʀᴛ                              
 ○ ʀᴇǫᴜᴇsᴛ ᴡɪʟʟ ʙᴇ ᴄᴏᴍᴘʟᴇᴛᴇᴅ ɪɴ 1ʜ ɪꜰ ᴀᴠᴀɪʟᴀʙʟᴇ   
 
-✨ ᴜᴘɪ ɪᴅ - <code>{}</code>
+💵 ᴜᴘɪ ɪᴅ - <code>p.satiz004@oksbi</code>
+📸 ǫʀ ᴄᴏᴅᴇ - <a href='https://telegra.ph/Payment-Information-02-03-5'>ᴄʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ꜱᴄᴀɴ</a>
 
 ᴄʟɪᴄᴋ ᴛᴏ ᴄʜᴇᴄᴋ ʏᴏᴜʀ ᴀᴄᴛɪᴠᴇ ᴘʟᴀɴ /myplan
 
