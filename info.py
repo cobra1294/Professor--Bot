@@ -110,6 +110,7 @@ INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTE
 #premium info
 PAYMENT_QR = environ.get('PAYMENT_QR', 'https://telegra.ph/Payment-Information-02-03-5')
 OWNER_UPI_ID = environ.get('OWNER_UPI_ID', 'p.satiz004@oksbi')
+OWNER_USERNAME = environ.get("OWNER_USERNAME", "https://t.me/Itz_me_444")
 
 #start_command_reactions
 REACTIONS = ["😇", "🤗", "😍", "👍", "🥰", "😱", "😘", "⚡️"]
