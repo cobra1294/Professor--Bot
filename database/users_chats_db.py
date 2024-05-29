@@ -1,5 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from info import DATABASE_NAME, DATABASE_URL, IMDB_TEMPLATE, WELCOME_TEXT, AUTH_CHANNEL, LINK_MODE, TUTORIAL, SHORTLINK_URL, SHORTLINK_API, SHORTLINK, FILE_CAPTION, IMDB, WELCOME, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE, IS_STREAM, IS_FSUB, VERIFY_EXPIRE, IS_PM_SEARCH
+from info import DATABASE_NAME, DATABASE_URL, IMDB_TEMPLATE, WELCOME_TEXT, LINK_MODE, TUTORIAL, SHORTLINK_URL, SHORTLINK_API, SHORTLINK, FILE_CAPTION, IMDB, WELCOME, SPELL_CHECK, PROTECT_CONTENT, AUTO_FILTER, AUTO_DELETE, IS_STREAM, VERIFY_EXPIRE, IS_PM_SEARCH
 import time
 import datetime
 
@@ -22,9 +22,8 @@ class Database:
         'shortlink': SHORTLINK,
         'tutorial': TUTORIAL,
         'links': LINK_MODE,
-        'fsub': AUTH_CHANNEL,
-        'is_stream': IS_STREAM,
-        'is_fsub': IS_FSUB
+        'fsub': "",
+        'is_stream': IS_STREAM
     }
 
     default_verify = {
@@ -173,7 +172,6 @@ class Database:
     async def get_db_size(self):
         return (await mydb.command("dbstats"))['dataSize']
    
-    
     async def get_user(self, user_id):
         user_data = await self.users.find_one({"id": user_id})
         return user_data
@@ -235,5 +233,9 @@ class Database:
         else:
             await self.botcol.insert_one({'id': int(bot_id), 'bot_pm_search': enable})
 
+    async def get_all_chats_count(self):
+        grp = await self.grp.find().to_list(None)
+        return grp
+        
 db = Database()
-    
+                 
