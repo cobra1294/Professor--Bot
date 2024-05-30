@@ -905,7 +905,7 @@ async def auto_filter(client, msg, s, spoll=False):
             for file in files
         ]   
     if offset != "":
-        if settings['shortlink'] and not await db.has_premium_access(query.from_user.id):
+        if settings['shortlink'] and not await db.has_premium_access(message.from_user.id):
             btn.insert(0,
                 [InlineKeyboardButton("ʜᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ", url=TUTORIAL),
                 InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}#{req}#0"),
@@ -922,7 +922,7 @@ async def auto_filter(client, msg, s, spoll=False):
              InlineKeyboardButton(text="ɴᴇxᴛ »", callback_data=f"next_{req}_{key}_{offset}")]
         )
     else:
-        if settings['shortlink'] and not await db.has_premium_access(query.from_user.id):
+        if settings['shortlink'] and not await db.has_premium_access(message.from_user.id):
             btn.insert(0,
                 [InlineKeyboardButton("ʜᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ", url=TUTORIAL),
                 InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")]
