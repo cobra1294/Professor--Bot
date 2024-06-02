@@ -250,15 +250,21 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
             for file in files
         ]
     if settings['shortlink'] and not await db.has_premium_access(query.from_user.id):
-        btn.insert(0,
+        btn.insert(0,[
+            InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")
+        ])
+        btn.insert(1,
             [InlineKeyboardButton("ʜᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ", url=TUTORIAL),
             InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{offset}")]
         )
     else:
-        btn.insert(0,
+        btn.insert(0,[
+            InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")
+        ])
+        btn.insert(1,
             [InlineKeyboardButton("ʜᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ", url=TUTORIAL),
             InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{offset}")]
-        )
+                  )
     
     if l_offset != "":
         btn.append(
@@ -304,12 +310,18 @@ async def lang_next_page(bot, query):
             for file in files
         ]
     if settings['shortlink'] and not await db.has_premium_access(query.from_user.id):
-        btn.insert(0,
+        btn.insert(0,[
+            InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")
+        ])
+        btn.insert(1,
             [InlineKeyboardButton("ʜᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ", url=TUTORIAL),
             InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{l_offset}")]
         )
     else:
-        btn.insert(0,
+        btn.insert(0,[
+            InlineKeyboardButton("🥇 ʙᴜʏ 🥇", url=f"https://t.me/{temp.U_NAME}?start=plans")
+        ])
+        btn.insert(1,
             [InlineKeyboardButton("ʜᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ", url=TUTORIAL),
             InlineKeyboardButton("🔍 ǫᴜᴀʟɪᴛʏ", callback_data=f"quality#{key}#{req}#{l_offset}")]
         )
