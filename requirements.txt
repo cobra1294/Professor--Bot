@@ -1,4 +1,4 @@
-pyrofork
+pyrotgfork
 tgcrypto
 motor
 marshmallow
