@@ -3,18 +3,20 @@ from database.ia_filterdb import Media
 from aiohttp import web
 from database.users_chats_db import db
 from web import web_app
-from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, ADMINS
+from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, ADMINS, DATABASE_URL
 from utils import temp, get_readable_time, save_group_settings
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
 import time, os
 from pyrogram.errors import FloodWait
 import asyncio
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
 class Bot(Client):
     def __init__(self):
         super().__init__(
-            name='PROFESSOR_Bot',
+            name='Professor_Bot',
             api_id=API_ID,
             api_hash=API_HASH,
             bot_token=BOT_TOKEN,
@@ -26,6 +28,13 @@ class Bot(Client):
         b_users, b_chats = await db.get_banned()
         temp.BANNED_USERS = b_users
         temp.BANNED_CHATS = b_chats
+        client = MongoClient(DATABASE_URL, server_api=ServerApi('1'))
+        try:
+            client.admin.command('ping')
+            print("Pinged your deployment. You successfully connected to MongoDB!")
+        except Exception as e:
+            print("Something Went Wrong While Connecting To Database!", e)
+            exit()
         await super().start()
         if os.path.exists('restart.txt'):
             with open("restart.txt") as file:
@@ -110,4 +119,3 @@ except FloodWait as vp:
     asyncio.sleep(vp.value)
     print("Now Ready For Deploying !")
     app.run()
-
